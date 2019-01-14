@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="personalvue">
+			<header class="center-header">
+				个人中心
+			</header>
+			<div class="center-bj-box">
+				<img src="../../img/important/Shape167copy.png" />
+				<div class="center-rules-box">
+					<template v-if="info != null">
+						<div class="center-rules-img">
+							<img v-cloak v-if="info.ad_head_url == null|| info.ad_head_url == ''" src="../../img/important/headportrait.png" />
+							<img v-else :src="info.ad_head_url" />
+						</div>
+						<div class="center-rules-list">
+							<!--window.location.href='growth-rules.html'-->
+							<div onclick="app.blocaked()">
+								<span>查看</span>
+								<p>成长规则</p>
+							</div>
+							<!--window.location.href='growth-record.html'-->
+							<div onclick="app.blocaked()">
+								<span>查看</span>
+								<p>积分记录</p>
+								<a></a>
+							</div>
+							<!--window.location.href='growth-score.html'-->
+							<div onclick="app.blocaked()">
+								<span>查看</span>
+								<p>成长记录</p>
+								<a></a>
+							</div>
+						</div>
+						<div class="center-user-info" onclick="window.location.href='information.html'">
+							<p><img src="../../img/important/V.png" />
+								<a>1</a><span>青铜</span></p>
+							<p v-cloak>{{info.nickname}}
+								<a href="javascript:;" class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+							</p>
+						</div>
+					</template>
+				</div>
+			</div>
+			<div class="basic-operation">
+				<div>基本操作</div>
+				<div class="basic-operation-div" style="border-bottom: none;">
+					<!--window.location.href='business.html'-->
+					<div onclick="window.location.href='business.html'">
+						<img src="../../img/important/thefinancialflow.png" />
+						<p>营业流水</p>
+						<a></a>
+					</div>
+					<!--window.location.href='notice.html'-->
+					<div onclick="app.blocaked()">
+						<img src="../../img/important/notice.png" />
+						<p>通知中心</p>
+					</div>
+					<!--window.location.href='my-collection.html'-->
+					<div style="border-bottom: none;" onclick="app.blocaked()">
+						<img src="../../img/important/collection.png" />
+						<p>我的收藏</p>
+						<a></a>
+					</div>
+					<!--window.location.href='technician-list.html'-->
+					<div style="border-bottom: none;" onclick="window.location.href='technician-list.html'">
+						<img src="../../img/important/technician.png" />
+						<p>技师管理</p>
+					</div>
+				</div>
+			</div>
+			<div @click="applyPartTime()" class="basic-operation2">
+				<p>
+					<img src="../../img/important/part.png" height="30" />
+					<span>申请使用兼职技师</span>
+				</p>
+			</div>
+			<div class="basic-operation2" onclick="window.location.href='about-platform.html'">
+				<p>
+					<img src="../../img/important/ontheplatform.png" />
+					<span>关于平台</span>
+					<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+				</p>
+			</div>
+			<!--window.location.href='privilege.html'-->
+			<div class="basic-operation2" onclick="app.blocaked()">
+				<p>
+					<img src="../../img/important/levelprivileges.png" />
+					<span>等级特权</span>
+					<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+				</p>
+			</div>
+			<div @click="exit()" class="basic-operation2" style="margin-bottom: 55px;">
+				<p>
+					<img src="../../img/important/exit.png" />
+					<span>退出当前账号</span>
+					<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+				</p>
+			</div>
+			<nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item mui-active" href='../../index.html'>
+					<span class="mui-icon nlk-icon"><img src="../../img/important/homepage1.png"/></span>
+					<span class="mui-tab-label ">首页</span>
+				</a>
+				<a class="mui-tab-item" href='../my-service/service-list.html'>
+					<span class="mui-icon nlk-icon"><img src="../../img/important/service1.png"/></span>
+					<span class="mui-tab-label ">我的服务</span>
+				</a>
+				<a class="mui-tab-item" href='../service-order/all-order.html'>
+					<span class="mui-icon nlk-icon"><img src="../../img/important/theorder1.png"/></span>
+					<span class="mui-tab-label">服务订单</span>
+				</a>
+				<a class="mui-tab-item" href='../personal-center/personal-center.html'>
+					<span class="mui-icon nlk-icon"><img src="../../img/important/personalcenter.png"/></span>
+					<span class="mui-tab-label nlk-active">个人中心</span>
+				</a>
+			</nav>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/personal.js"></script>
+		<script type="text/javascript">
+			mui('body').on('tap', 'a', function() {
+				document.location.href = this.href;
+			});
+			mui.init();
+			//等比例
+			$(".center-rules-img").css("height", $(".center-rules-img").width() + "px");
+		</script>
+	</body>
+
+</html>

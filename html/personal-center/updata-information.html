@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			
+			.info-list>p {
+				padding: 0px;
+			}
+			
+			.submint-btn {
+				width: 100%;
+				padding: 10px;
+				background: #FFF;
+				text-align: center;
+			}
+			
+			.submint-btn>button {
+				background: #019eff;
+				color: #fff;
+				font-size: 0.9rem;
+				width: 70%;
+				border: none;
+				padding-bottom: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<h1 class="mui-title" style="color: #555;">详细资料</h1>
+		</header>
+		<div id="updatainfovue" class="mui-content" style="background: #F3F3F3;">
+			<div class="info-list">
+				<p><span>名称：</span><input v-model="name" type="text" name="" id="" value="" placeholder="请输入名称" /></p>
+				<p><span>介绍：</span><input v-model="introduce" type="text" name="" id="" value="" placeholder="请输入介绍" /></p>
+				<!--<p><span>服务范围：</span><input type="text" name="" id="" value="" placeholder="请输入服务范围" /></p>
+				<p><span>服务地址：</span><input type="text" name="" id="" value="" placeholder="请输入服务地址" /></p>-->
+				<p><span>联系电话：</span><input v-model="hotline" type="text" name="" id="" value="" placeholder="请输入联系电话" /></p>
+			</div>
+			<div class="info-img" style="margin-top: 5px;border-bottom: 1px solid #f3f3f3;">
+				<p>
+					<span>示意图</span>
+				</p>
+				<div>
+					<div v-if="info.ad_head_url != ''" @click="triggersFile(event, info.seller_ad_sign, true)" class="info-img-box">
+						<img class="flieimg" :src="info.ad_head_url" />
+					</div>
+					<div v-else @click="triggersFile(event, '', true)" class="info-img-box">
+						<img class="flieimg" src="../../img/important/headportrait.png" />
+					</div>
+				</div>
+			</div>
+			<div class="info-img">
+				<p>
+					<span>宣传图册</span>
+				</p>
+				<div>
+					<div v-if="seller != null && seller.length > 0" class="info-img-box" @click="triggersFile(event, seller[0].sign, false)" >
+						<img  v-if="seller != null && seller.length > 0" class="flieimg" :src="seller[0].img_url" />
+						<img v-else class="flieimg" src="../../img/important/add.png" />
+					</div>
+					<div v-cloak v-if="seller != null && seller.length > 0" @click="triggersFile(event, seller[1].sign, false)" class="info-img-box">
+						<img v-if="seller != null && seller.length > 0" class="flieimg" :src="seller[1].img_url" />
+						<img v-else class="flieimg" src="../../img/important/add.png" />
+					</div>
+					<div v-cloak v-if="seller != null && seller.length > 0" @click="triggersFile(event, seller[2].sign, false)" class="info-img-box">
+						<img v-if="seller != null && seller.length > 0" class="flieimg" :src="seller[2].img_url" />
+						<img v-else class="flieimg" src="../../img/important/add.png" />
+					</div>
+				</div>
+			</div>
+			<input type="file" id="file1" @change="fileChange(event)" style="display: none;" />
+			<div class="submint-btn">
+				<button @click="submiBtnClick(event)">提交</button>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/app/regex.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/updata-info.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(".info-img-box").css("height", $(".info-img-box").width() + "px");
+			//触发上传
+			var imgflie;
+			$(".info-img-box").on("tap", ".deleteicon", function() {
+				console.log($(this))
+				$(this).prev("img").remove();
+				$(this).remove();
+			});
+		</script>
+	</body>
+
+</html>

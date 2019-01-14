@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			.mui-content {
+				background: #F3F3F3;
+			}
+			#send {
+				width: auto;
+				font-size: 0.7rem!important;
+				padding: 0;
+				color: #019Eff;
+				float: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a href="business.html" class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #1AB3FF;"></a>
+			<h1 class="mui-title" style="color: #555;">提现</h1>
+		</header>
+		<div id="withdrawal" class="mui-content">
+			<div id="z_zfb" class="withdrawal-list" style="margin-top: 5px;">
+				<img src="../../img/important/zfb.png" />
+				<span>支付宝</span>
+				<div>
+					<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+				</div>
+			</div>
+				<div class="pay zfb">
+				<div class="pay-money">
+					<div>
+						<span>真实姓名：</span>
+						<input v-model="name" type="text" />
+					</div>
+				</div>
+				<div class="pay-money">
+					<div>
+						<span>支付宝账号：</span>
+						<input v-model="account" type="text" />
+					</div>
+				</div>
+				<div class="pay-money">
+					<div>
+						<span>提现金额：</span>
+						<input v-model="money" type="number"/>
+						<input @click="getCode(event)" v-model="countdown" type="button" id="send" value="发送验证码" readonly="readonly">
+					</div>
+				</div>
+				<div class="pay-money">
+					<div>
+						<span>输入验证码：</span>
+						<input v-model="smscode" type="number" />
+					</div>
+				</div>
+			</div>
+			<div @click="submitOrder()" class="pay-btn">确定</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js" ></script>
+		<script type="text/javascript" src="../../js/app/app.js" ></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/app/regex.js" ></script>
+		<script type="text/javascript" src="../../js/app/html/withdrawal.js" ></script>
+		<script type="text/javascript">
+			mui.init()
+			$("#z_zfb")[0].addEventListener("tap",function(){
+				$(".zfb").show();
+				$(".wx").hide();
+				$(".pay-btn").show();
+			});
+		</script>
+	</body>
+
+</html>

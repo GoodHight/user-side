@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/public.css" />
+		<link rel="stylesheet" href="css/merchants-style.css" />
+		<link rel="stylesheet" href="css/mui.picker.min.css" />
+		<script src="http://static.cqnanlin.com/s/cities.json"></script>
+		<style type="text/css">
+			.mui-content {
+				background: #F5F5F5;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">实名认证</h1>
+		</header>
+		<div id="realnamevue" class="mui-content">
+			<div class="real-box">
+				<div>
+					<span>名称：</span>
+					<input v-model="name" type="text" placeholder="输入名称" />
+				</div>
+				<div>
+					<span>介绍：</span>
+					<input v-model="introduce" type="text" placeholder="输入介绍内容" />
+				</div>
+				<div @click="selectService()">
+					<span>服务范围：</span>
+					<input v-model="serviceArea" type="text" placeholder="选择服务范围" readonly="readonly" />
+					<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+				</div>
+				<div class="showService">
+					<span>服务地址：</span>
+					<input v-model="showservice" type="text" placeholder="选择服务地址" readonly="readonly" />
+					<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+				</div>
+				<div>
+					<span>详细地址：</span>
+					<input v-model="serviceAddress" type="text" placeholder="填写详细地址" />
+					<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+				</div>
+				<div>
+					<span>服务热线：</span>
+					<input v-model="hotline" type="text" placeholder="添加热线电话" />
+				</div>
+			</div>
+			<div class="file-box">
+				<div class="file-title" style="line-height: 35px; font-size: 0.9rem;">
+					<span>添加认证信息</span>
+				</div>
+				<div class="file-img" style="border-bottom: 1px solid #E2E2E2;">
+					<div class="img-type">营业执照</div>
+					<div class="img-file">
+						<div class="img-box">
+							<div @click="triggersFile(event, 0)" class="img-src">
+								<img src="img/important/add1.png" />
+							</div>
+							<div @click="imgDelete(event, 0)" class="img-delete hide">
+								<img src="img/important/deleteicon.png" />
+							</div>
+						</div>
+						<div class="img-box">
+							<div @click="triggersFile(event, 1)" class="img-src">
+								<img src="img/important/add1.png" />
+							</div>
+							<div @click="imgDelete(event, 1)" class="img-delete hide">
+								<img src="img/important/deleteicon.png" />
+							</div>
+						</div>
+						<div class="img-box">
+							<div @click="triggersFile(event, 2)" class="img-src">
+								<img src="img/important/add1.png" />
+							</div>
+							<div @click="imgDelete(event, 2)" class="img-delete hide">
+								<img src="img/important/deleteicon.png" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="file-img" style="padding-top: 20px;">
+					<div class="img-type">门头店内场景图</div>
+					<div class="img-file">
+						<div class="img-box">
+							<div @click="triggersFile(event, 3)" class="img-src">
+								<img src="img/important/add1.png" />
+							</div>
+							<div @click.stop="imgDelete(event, 3)" class="img-delete hide">
+								<img src="img/important/deleteicon.png" />
+							</div>
+						</div>
+						<div class="img-box">
+							<div @click="triggersFile(event, 4)" class="img-src">
+								<img src="img/important/add1.png" />
+							</div>
+							<div @click.stop="imgDelete(event, 4)" class="img-delete hide">
+								<img src="img/important/deleteicon.png" />
+							</div>
+						</div>
+						<div class="img-box">
+							<div @click="triggersFile(event, 5)" class="img-src">
+								<img src="img/important/add1.png" />
+							</div>
+							<div @click.stop="imgDelete(event, 5)" class="img-delete hide">
+								<img src="img/important/deleteicon.png" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="submit-certification">
+					<button @click="parsingAddress()">提交</button>
+				</div>
+			</div>
+			<input type="file" name="" id="file1" @change="fileChange(event)" style="display: none;" />
+			<div v-if="showSer" v-cloak class="service-conts">
+				<div class="uls-box">
+					<div class="services-box">
+						<ul class="service-uls">
+							<template v-if="serviceList != null && serviceList.length > 0" v-for="(list, index) in serviceList">
+								<li @click="selectService(event,list.sign,list.category_name)">
+									<span>{{list.category_name}}</span>
+									<label><a class="mui-icon mui-icon-checkmarkempty"></a></label>
+								</li>
+							</template>
+						</ul>
+					</div>
+					<div @click="serviceSumbit(event)" class="service-btn">确定</div>
+				</div>
+			</div>
+			<div class="selectarea_box">
+				<div class="selectarea">
+					<div class="area-title">
+						<span>
+							请选择您所服务的地址范围
+						</span>
+					</div>
+					<p>
+						<span>省</span>
+						<span>市</span>
+						<span>区</span>
+						<span>范围</span>
+					</p>
+					<div>
+						<select @change="selectArea(event,01)">
+							<template v-if="province != null" v-for="(list, index) in province">
+								<option :value="list.code">{{list.name}}</option>
+							</template>
+						</select>
+					</div>
+					<div>
+						<select @change="selectArea(event,02)">
+							<template v-if="city != null" v-for="(list, index) in citys">
+								<option :value="list.code">{{list.name}}</option>
+							</template>
+						</select>
+
+					</div>
+					<div>
+						<select @change="selectArea(event,03)">
+							<template v-if="area != null" v-for="(list, index) in area">
+								<option :value="list.code">{{list.name}}</option>
+							</template>
+						</select>
+					</div>
+					<div>
+						<select @change="selectArea(event,04)">
+							<template v-for="(list,index) in scope">
+								<option :value="list.code">{{list.name}}</option>
+							</template>
+						</select>
+					</div>
+					<button class="selectarea-btn">确定</button>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/zepto.min.js"></script><br />
+		<script type="text/javascript" src="js/lib/mui.picker.min.js" ></script>
+		<script type="text/javascript" src="js/city.data-3.js"></script>
+		<script type="text/javascript" src="js/lib/mui.picker.min.js"></script>
+		<script src="http://api.map.baidu.com/api?v=2.0&ak=rQt9zrE13x7b0ApNQXvFvnGQugQEk73O"></script>
+		<script src="js/app/common.js"></script>
+		<script src="js/app/app.js"></script>
+		<script src="js/lib/vue/vue.min.js"></script>
+		<script src="js/app/regex.js"></script>
+		<script src="js/app/html/realname.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(".img-box").css("height", $(".img-box").width() + "px");
+			$(window).ready(function() {
+				$("#service").click(function() {
+					$(".service-cont").addClass("hide");
+				});
+			});
+			$(".showService").on("click", function() {
+				$(".selectarea_box").show();
+			});
+			$(".selectarea").on("click", function() {
+				event.stopPropagation();
+			});
+			$(".selectarea_box").on("click", function() {
+				$(this).hide();
+			});
+			document.getElementById("spinner-box").ontouchstart = function(e) {
+				e.preventDefault();
+			};
+		</script>
+	</body>
+
+</html>

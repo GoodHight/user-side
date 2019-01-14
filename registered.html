@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/merchants-style.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #019eff;"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div id="registeredvue" class="mui-content">
+			<div id="z_file" class="portrait-box">
+				<div class="portrait">
+					<img id="z_uesrimg" src="img/important/headportrait.png" />
+					<input type="file" name="" id="file1" @change="filechange(event)" style="display: none;" />
+				</div>
+				<p>点击图片上传头像</p>
+				
+			</div>
+			<div class="info-box">
+				<div class="merchants-name">
+					<span><img  src="img/important/my.png"/></span>
+					<input v-model="nickname" type="text" placeholder="请输入昵称" />
+				</div>
+				<div class="merchants-phone">
+					<span><img src="img/important/mobilephone1.png"/></span>
+					<input v-model="phone" type="text" placeholder="请输入手机号" />
+					<span @click="getCode(event)">发送验证码</span>
+				</div>
+				<div class="merchants-code">
+					<span><img src="img/important/125000certification1.png"/></span>
+					<input v-model="smscode" type="text" placeholder="请输入验证码" />
+				</div>
+				<div class="agreement">
+					<span>
+						<label @click="typeBtn(event)" :class="typeC ? 'agreed agreed-c':'agreed'"></label>我已阅读并同意<a id="z-agreement">《用户注册协议》</a>
+					</span>
+				</div>
+				<div @click="submitBtn(event)" class="submint-btn">确定</div>
+			</div>
+		</div>
+		<div id="z_tologin" class="tologin">
+			已有账号去登录
+			<a class="mui-icon mui-icon-arrowright"></a>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/zepto.min.js"></script>
+		<script type="text/javascript" src="js/app/common.js"></script>
+		<script type="text/javascript" src="js/app/app.js"></script>
+		<script type="text/javascript" src="js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="js/app/regex.js"></script>
+		<script src="js/app/plusUtils.js"></script>
+		<script type="text/javascript" src="js/app/html/registered.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			//触发上传
+			$("#z_file")[0].addEventListener("tap", function() {
+				$('#file1').click();
+			});
+			//返回登录
+			$("#z_tologin")[0].addEventListener("tap", function() {
+				window.location.href = 'login.html';
+			});
+
+			//注册协议
+			$("#z-agreement")[0].addEventListener("tap", function() {
+				window.location.href = 'user-conduct.html';
+			});
+			//			$(".submint-btn").on("tap",function(){
+			//				window.location.href="real-name.html"
+			//			});
+		</script>
+	</body>
+
+</html>

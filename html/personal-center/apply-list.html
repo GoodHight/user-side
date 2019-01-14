@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			
+			.mui-content {
+				background: #F3F3F3;
+			}
+			
+			.mui-popup-button.mui-popup-button-bold {
+				font-weight: initial;
+			}
+			
+			.mui-popup-input input {
+				border-radius: 3px;
+				border: 1px solid #EFF4F3;
+			}
+			.warning{
+				height: 50px;
+				line-height: 50px;
+			}
+			.warning>p{
+				text-align: center;
+				font-size: 0.8rem;
+				color: #555;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<h1 class="mui-title" style="color: #555;">申请列表</h1>
+		</header>
+		<div id="applylist" class="mui-content">
+			<template v-if="applylist != '' && applylist.length > 0" v-for="(list, index) in applylist">
+				<div @click="detailedInfo(event, list.sign)" class="apply-box">
+					<div class="technician-img">
+						<img :src="list.head_url" />
+					</div>
+					<div class="technician-info">
+						<p>{{list.name}}</p>
+						<p>{{list.created_time|dateformatting}}</p>
+						<p><span>{{list.title}}</span><span>|</span><span>{{list.service_types|serviceText}}</span></p>
+					</div>
+					<div class="technician-btn">
+						<span @click.stop="userOperation(event, true, list.sign)">通过</span>
+						<span @click.stop="userOperation(event, false, list.sign)" class="refused">拒绝</span>
+					</div>
+				</div>
+			</template>
+			<div v-cloak v-if="listtype" class="warning">
+				<p>暂无技师申请</p>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/applylist.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(".technician-img").css("height", $(".technician-img").width() + "px");
+			//技师详情
+			//			$(".apply-box").on("tap",function(){
+			//				window.location.href='technician-info.html'
+			//			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/public.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			
+			.mui-popup-button.mui-popup-button-bold {
+				font-weight: initial;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="headervue" class="mui-bar mui-bar-nav search-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title" style="color: white;">创建服务</h1>
+			<a @click="submiting()" class="mui-pull-right" style="color: white;">提交</a>
+		</header>
+		<div id="createservice" class="mui-content" style="background: #F3F3F3;">
+			<div class="create-info-box">
+				<ul class="create-info-ul">
+					<li>
+						<img src="../../img/important/thebasicinformation.png" />
+						<span>基本信息</span>
+					</li>
+					<li>
+						<div @click="HdListSelect()">
+							<label>服务分类：</label>
+							<input id="z_service_type" type="text" placeholder="请选择服务分类">
+							<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+						</div>
+					</li>
+					<li @click="wayservice()">
+						<div>
+							<label>服务方式：</label>
+							<input v-model="servicetext" type="text" placeholder="请选择服务方式" readonly="readonly">
+							<a class="mui-icon mui-icon-arrowright  mui-pull-right"></a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<label>服务标题：</label>
+							<input v-model="title" type="text" placeholder="请选择服务标题">
+						</div>
+					</li>
+					<li v-if="door==false"  @click="tecHnician(event)">
+						<div id="z_technician">
+							<label>添加技师：</label>
+							<input class="technician" type="text" placeholder="请选择添加技师" readonly="readonly">
+							<a class="mui-icon mui-icon-arrowright  mui-pull-right"></a>
+						</div>
+					</li>
+					
+					<li>
+						<div>
+							<label>设置价格：</label>
+							<input v-model="money" type="number" placeholder="请输入价格">
+						</div>
+					</li>
+					<li>
+						<div>
+							<label>时长/分钟：</label>
+							<input v-model="duration" type="number" placeholder="请输入时长">
+						</div>
+					</li>
+					<li>
+						<div @click="selectTime()">
+							<label>设置时间：</label>
+							<input v-model="time" id="z_create_time" type="text" placeholder="服务截止时间" readonly="readonly">
+						</div>
+					</li>
+				</ul>
+				<div class="file-img-box">
+					<p class="file-title">
+						<img src="../../img/important/picture.png" />
+						<span>上传图片</span>
+					</p>
+					<div class="file">
+						<span>上传示意图</span><br /><br />
+						<div @click="fileBtn(event, 0)" class="schematic">
+							<img src="../../img/important/add.png" />
+						</div>
+					</div>
+					<div class="introduce">
+						<p>服务介绍</p>
+						<textarea v-model="content" placeholder="添加介绍内容" maxlength="100"></textarea>
+						<div class="introduce-img">
+							<div @click="fileBtn(event, 1)">
+								<img class="fileimg" src="../../img/important/add.png" />
+							</div>
+						</div>
+					</div>
+					<input id="z_file" class="hide" type="file" @change="imgFiles(event)" />
+				</div>
+			</div>
+			<div id="select_cont" class="select-cont hide">
+				<div class="technician-box">
+					<template v-if="technician != null && technician.length > 0" v-for="(list, index) in technician">
+						<div @click="selectTech(event, list.sign)" class="mui-input-row mui-checkbox ">
+							<label>{{list.name}}</label>
+							<input name="Checkbox" type="checkbox">
+						</div>
+					</template>
+				</div>
+				<div class="submint-create">
+					<button>确定</button>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/regex.js"></script>
+		<script type="text/javascript" src="../../js/app/html/createservice.js"></script>
+		<script type="text/javascript">
+			$(".file").on("tap", "img", function() {
+				$("#z_file").click();
+				img = $(this);
+			});
+			$(".introduce-img").on("tap", ".fileimg", function() {
+				$("#z_file").click();
+				img = $(this);
+			});
+			$(".submint-create").on("tap", function() {
+				$("#select_cont").addClass("hide");
+			});
+			var arrays = [],
+				type = true;
+			$(".technician-box").on("tap", "div", function() {
+				var str = $(this).children("label").text();
+				if(arrays.length <= 0) {
+					arrays.push(str);
+				} else {
+					for(var i = 0; i < arrays.length; i++) {
+						if(arrays[i] == str) {
+							type = false;
+							arrays.splice(i, 1);
+						}
+					}
+					if(type) {
+						arrays.push(str);
+					}
+					type = true;
+				}
+			});
+			$(".submint-create").on("tap", function() {
+				var str = '';
+				for(var i = 0; i < arrays.length; i++) {
+					str += arrays[i] + ',';
+				}
+				str.substring(0, str.length - 1);
+				$('.technician').val(str.substring(0, str.length - 1))
+			});
+			document.getElementById("spinner-box").ontouchstart = function(e) {
+				e.preventDefault();
+			};
+		</script>
+	</body>
+
+</html>

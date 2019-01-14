@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/public.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #f5f5f5;
+			}
+			
+			.mui-slider-item {
+				min-height: 200px;
+			}
+			
+			.user-lable-list {
+				margin: 0px 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<h1 class="mui-title" style="color: #555;">服务详情</h1>
+		</header>
+		<div id="servicedetails" v-cloak class="mui-content" style="background: #f5f5f5;">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img :src="detailsList.img_url[detailsList.img_url.length-1]">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<template v-for="(img, index) in detailsList.img_url">
+						<div class="mui-slider-item">
+							<a href="#">
+								<img :src="img">
+							</a>
+						</div>
+					</template>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img :src="detailsList.img_url[0]">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<template v-for="(img, index) in detailsList.img_url">
+						<div :class=" index == 0?'mui-indicator mui-active':'mui-indicator'"></div>
+					</template>
+				</div>
+			</div>
+			<div class="details-title-box">
+				<div class="details-title-left">
+					<p class="details-title">{{name}}
+						<a v-if="detailsList.is_shelves">（已上架）</a>
+						<a v-else>（未上架）</a>
+					</p>
+					<!--<p class="details-score">
+						<a :data-star="detailsList.star" >{{detailsList.star}}分</a>
+					</p>-->
+				</div>
+				<div class="details-title-right">
+					<button @click="shelvesBtn(event, false)" v-if="detailsList.is_shelves">下架</button>
+					<button @click="shelvesBtn(event, true)" v-else>上架</button>
+				</div>
+			</div>
+			<div class="icon-details">
+				<img src="../../img/important/theorders.png" />
+				<span>服务详情</span>
+			</div>
+			<div class="text-details">
+				<div>
+					<span>{{detailsList.service_title}}</span>
+				</div>
+				<div>
+					<span>价格<a>{{detailsList.service_price}}元</a></span>
+				</div>
+			</div>
+			<div class="details-time">
+				<div class="details-time-left">
+					<img src="../../img/important/1.png" />
+				</div>
+				<div class="details-time-right">
+					<p>时长：{{detailsList.service_time}}分钟</p>
+					<p>介绍：{{detailsList.service_introduce}}</p>
+				</div>
+			</div>
+			<div class="icon-details" style="margin-top: 0px;">
+				<img src="../../img/important/time12.png" />
+				<span style="margin-left: 10px;">{{detailsList.created_time|dateFormatting}}</span>
+			</div>
+			<div @click="expansion(event)" id="z_technician" class="icon-details" style="margin-top: 0px;">
+				<img src="../../img/important/my1.png" />
+				<span style="margin-left: 10px;">服务技师</span>
+				<a class="mui-icon mui-icon-arrowdown mui-pull-right"></a>
+				<div class="technician-details">
+					<ul>
+						<template  v-for="(list, index) in technician">
+							<li>
+								<div class="technician-icon">
+									<img :src="list.head_url" />
+								</div>
+								<div class="technician-introduce">
+									<p class="technician-p1"><span>{{list.name}}</span>
+										<a>服务{{list.number}}单</a>
+									</p>
+									<p class="technician-p2"><span>{{list.title}}</span>
+										<a></a><span>{{list.service_types|serviceText}}</span></p>
+									<!--<p class="technician-p3"><span :data-star="list.star">{{list.star}}分</span></p>-->
+								</div>
+							</li>
+						</template>
+					</ul>
+				</div>
+			</div>
+			<!--<div class="user-evaluation icon-details">
+				<img src="../../img/important/evaluation.png" />
+				<span>用户评价</span>
+				<span class="mui-pull-right">共22条评价</span>
+			</div>
+			<div class="user-lable">
+				<template v-if="detailsList.lable_view_vos != null " v-for="(text, index) in detailsList.lable_view_vos">
+					<button class="user-lable-list">
+					   <span>{{text.name}}<a>{{text.num}}</a></span>
+				    </button>
+				</template>
+			</div>-->
+			<!--<div class="user-entity">
+				<div>
+					<div class="user-img">
+						<img src="../../img/secondary/tame5.png" />
+					</div>
+					<div class="evaluation-entity">
+						<p class="user-name">绿肥红瘦 <span class="mui-pull-right">2018/01/25</span></p>
+						<p class="user-score">
+							<a>4.5</a>
+						</p>
+						<p class="user-label">服务热情/店面干净</p>
+						<p class="user-text">很不错的师傅，下次我还来！</p>
+						<div class="entity-img">
+							<img src="../../img/secondary/tame3.png" data-preview-src="" data-preview-group="1" />
+						</div>
+						<p class="reply"><button>回复</button></p>
+					</div>
+				</div>
+			</div>-->
+			<!--<template v-if="detailsList.order_evaluate_detail_vos != null " v-for="(text, index) in detailsList.order_evaluate_detail_vos">
+				<div class="user-entity">
+					<div>
+						<div class="user-img">
+							<img src="../../img/secondary/tame5.png" />
+						</div>
+						<div class="evaluation-entity">
+							<p class="user-name">绿肥红瘦 <span class="mui-pull-right">2018/01/25</span></p>
+							<p class="user-score">
+								<a :data-star="text.evaluate_star">{{text.evaluate_star}}</a>
+							</p>
+							<p class="user-label">服务热情/店面干净</p>
+							<p class="user-text">{{text.evaluate_content}}</p>
+							<div class="entity-img">
+								<img src="../../img/secondary/tame3.png" data-preview-src="" data-preview-group="1" />
+							</div>
+							<p class="reply hide"><button>回复</button></p>
+						</div>
+					</div>
+					<div class="merchant-replies">
+						<div>
+							<img src="../../img/important/2.png" />
+							<span>我的回复</span>
+							<span>2018/01/12</span>
+						</div>
+						<span>谢谢朋友的支持，我们会继续努力。我们比任何人都坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强</span>
+					</div>
+				</div>
+			</template>-->
+			<!--<div @click="lookMore()" class="more">
+				<p>查看更多评价
+					<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+				</p>
+			</div>-->
+		</div>
+		<div class="input-box" style="display: none;">
+			<textarea id="z_reply" name="" rows="" cols="" placeholder="回复" autofocus="autofocus"></textarea>
+			<span>发送</span>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/public.js"></script>
+		<script type="text/javascript" src="../../js/mui.zoom.js"></script>
+		<script type="text/javascript" src="../../js/mui.previewimage.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/servicedetails.js"></script>
+		<script type="text/javascript">
+			// 初始化previewImage
+			mui.previewImage();
+			//评星
+			//			$("#z_reply").blur(function() {
+			//				$(".input-box").hide();
+			//			});
+		</script>
+	</body>
+
+</html>

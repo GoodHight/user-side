@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			.mui-content {
+				background: #F3F3F3;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<h1 class="mui-title" style="color: #555;">通知中心</h1>
+			<a id="z_editor" class="mui-icon mui-pull-right" style="color: #019eff;font-size:0.9rem;margin-top: 5px;">编辑</a>
+		</header>
+		<div class="mui-content">
+			<div class="notice-box">
+				<ul class="notice-ul">
+					<li>
+						<div class="notice-user-img">
+							<img src="../../img/secondary/img2.jpg"/>
+						</div>
+						<div class="notice-user-info">
+							<p>系统通知<a>11:25</a></p>
+							<span>您已领取了系统红包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包</span>
+						</div>
+						<div class="select-icon">
+							<img src="../../img/important/choose.png"/>
+						</div>
+					</li>
+					<li>
+						<div class="notice-user-img">
+							<img src="../../img/secondary/img2.jpg"/>
+						</div>
+						<div class="notice-user-info">
+							<p>系统通知<a>11:25</a></p>
+							<span>您已领取了系统红包</span>
+						</div>
+						<div class="select-icon">
+							<img src="../../img/important/choose.png"/>
+						</div>
+					</li>
+					<li>
+						<div class="notice-user-img">
+							<img src="../../img/secondary/img2.jpg"/>
+						</div>
+						<div class="notice-user-info">
+							<p>系统通知<a>11:25</a></p>
+							<span>您已领取了系统红包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包包</span>
+						</div>
+						<div class="select-icon">
+							<img src="../../img/important/choose.png"/>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(".notice-user-img").css("height", $(".notice-user-img").width() + "px");
+			$("#z_editor")[0].addEventListener("tap", function() {
+				$(".select-icon").children("img").show()
+				$(this).text("删除");
+			});
+			$(".select-icon").on("tap", function() {
+				var src = $(this).children("img").attr("src");
+				if(src == "../../img/important/11.png") {
+					$(this).children("img").attr("src", "../../img/important/choose.png");
+				} else {
+					$(this).children("img").attr("src", "../../img/important/11.png");
+				};
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<style type="text/css">
+			.reply {
+				text-align: right;
+			}
+			
+			.reply>button {
+				border-radius: 3px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<h1 class="mui-title" style="color: #555;">最新评价</h1>
+		</header>
+		<div class="mui-content">
+			<div class="user-entity">
+				<div>
+					<div class="user-img">
+						<img src="../../img/secondary/img3.jpg" />
+					</div>
+					<div class="evaluation-entity">
+						<p class="user-name">绿肥红瘦 <span class="mui-pull-right">2018/01/25</span></p>
+						<p class="user-label">单人推拿按摩</p>
+						<p class="user-label" style="font-size: 0.7rem;">订单号：1263465</p>
+						<p class="user-text">很不错的师傅，下次我还来！</p>
+						<div class="entity-img">
+							<img src="../../img/important/zone.png" data-preview-src="" data-preview-group="1" />
+						</div>
+						<div class="entity-img">
+							<img src="../../img/important/zone.png" data-preview-src="" data-preview-group="1" />
+						</div>
+						<div class="entity-img">
+							<img src="../../img/important/zone.png" data-preview-src="" data-preview-group="1" />
+						</div>
+						<p class="reply hide"><button>回复</button></p>
+					</div>
+				</div>
+				<div class="merchant-replies">
+					<div>
+						<img src="../../img/important/2.png" />
+						<span>我的回复</span>
+						<span>2018/01/12</span>
+					</div>
+					<span>谢谢朋友的支持，我们会继续努力。我们比任何人都坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强</span>
+				</div>
+			</div>
+			<div class="user-entity">
+				<div>
+					<div class="user-img">
+						<img src="../../img/secondary/img3.jpg" />
+					</div>
+					<div class="evaluation-entity">
+						<p class="user-name">绿肥红瘦 <span class="mui-pull-right">2018/01/25</span></p>
+						<p class="user-label">单人推拿按摩</p>
+						<p class="user-label" style="font-size: 0.7rem;">订单号：1263465</p>
+						<p class="user-text">很不错的师傅，下次我还来！</p>
+						<div class="entity-img">
+							<img src="../../img/important/zone.png" data-preview-src="" data-preview-group="1" />
+						</div>
+						<div class="entity-img">
+							<img src="../../img/important/zone.png" data-preview-src="" data-preview-group="1" />
+						</div>
+						<div class="entity-img">
+							<img src="../../img/important/zone.png" data-preview-src="" data-preview-group="1" />
+						</div>
+						<p class="reply"><button>回复</button></p>
+					</div>
+				</div>
+				<div class="merchant-replies hide">
+					<div>
+						<img src="../../img/important/2.png" />
+						<span>我的回复</span>
+						<span>2018/01/12</span>
+					</div>
+					<span>谢谢朋友的支持，我们会继续努力。我们比任何人都坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强</span>
+				</div>
+			</div>
+		</div>
+		<div class="input-box" style="display: none;">
+			<textarea id="z_reply" name="" rows="" cols="" placeholder="回复" autofocus="autofocus"></textarea>
+			<span>发送</span>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.zoom.js"></script>
+		<script type="text/javascript" src="../../js/mui.previewimage.js"></script>
+		<script type="text/javascript">
+			// 初始化previewImage
+			mui.previewImage();
+			mui.init()
+			//等比例
+			$(".user-img").css("height", $(".user-img").width() + "px");
+			$(".entity-img").css("height", $(".entity-img").width() + "px");
+			//回复
+			$(".reply").on("click", function() {
+				$(".input-box").show();
+				//触发键盘
+				document.getElementById('z_reply').focus()
+			});
+		</script>
+	</body>
+
+</html>

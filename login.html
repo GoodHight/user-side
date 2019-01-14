@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/merchants-style.css" />
+		<style>
+			.login-box {
+				position: relative;
+				z-index: 50;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">账户登录</h1>
+			<a id="z-registered" class="registered mui-pull-right">注册</a>
+		</header>
+		<div id="loginvue" class="mui-content">
+			<div class="logo-box">
+				<img src="img/important/logo.png" /><br />
+				<img src="img/important/name.png" />
+				<p class="apptype">商家版</p>
+			</div>
+			<div class="login-box">
+				<div class="phone-box">
+					<span><img src="img/important/mobilephone.png"/></span>
+					<input v-model="phone" type="tel" placeholder="请输入手机号" />
+				</div>
+				<div class="password-box">
+					<span><img src="img/important/password.png"/></span>
+					<input v-model="smscode" type="number" placeholder="请输入验证码" />
+				</div>
+				<div class="code-box">
+					<button @click="getCode(event)">发送验证码</button>
+				</div>
+				<div @click="submitBtn(event)" class="logobtn">
+					立即登录
+				</div>
+			</div>
+			<!--<div v-if="ReaLname" class="realname">
+				<div>
+					<img src="img/important/certification.png"/>
+					<div>很抱歉，您的实名认证没有通过。</div>
+					<div onclick="window.location.href='real-name.html'" class="recertification"></div>
+				</div>
+			</div>-->
+		</div>
+		<p class="kudai">技术支持@酷戴科技</p>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/zepto.min.js"></script>
+		<script type="text/javascript" src="js/app/common.js"></script>
+		<script type="text/javascript" src="js/app/app.js"></script>
+		<script type="text/javascript" src="js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="js/app/regex.js"></script>
+		<script type="text/javascript" src="js/app/html/login.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$("#z-registered")[0].addEventListener("tap", function() {
+				window.location.href = 'registered.html';
+			});
+			function plusReady() {
+				// 设置系统状态栏背景为主题蓝色
+				plus.navigator.setStatusBarBackground("#FFF");
+				// 设置系统状态栏样式为浅色文字
+				plus.navigator.setStatusBarStyle("dark");
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+		</script>
+	</body>
+
+</html>

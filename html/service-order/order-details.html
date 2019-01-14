@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/public.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #f5f5f5;
+			}
+			
+			.mui-slider-item {
+				min-height: 200px;
+			}
+			
+			.orderimg {
+				width: 100%;
+				min-height: 150px;
+			}
+			
+			.orderimg>img {
+				width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<h1 class="mui-title" style="color: #555;">订单详情</h1>
+		</header>
+		<div id="v_app" class="mui-content" style="background: #f5f5f5;">
+			<template v-if="details != null">
+				<div class="orderimg">
+					<img :src="details.img_url" />
+				</div>
+				<template v-if="details.is_finish == true">
+					<div class="details-title-box">
+						<div class="details-title-left">
+							<p class="details-title">{{details.order_service_detail_vo.service_title}}</p>
+							<p class="details-score">
+								<a>4.5分</a>
+							</p>
+						</div>
+					</div>
+					<div class="icon-details">
+						<img src="../../img/important/theorders.png" />
+						<span>服务详情</span>
+					</div>
+					<div class="text-details">
+						<div>
+							<span v-cloak>订单号：{{details.order_number}}</span>
+						</div>
+						<div>
+							<span class="use-type">已完成</span>
+						</div>
+					</div>
+					<div class="details-time" style="border: none;">
+						<div class="details-time-right order-details">
+							<p>
+								<span>{{details.order_service_detail_vo.service_title}}</span>
+								<span>×{{details.number}}</span>
+								<span>{{details.order_service_detail_vo.service_price}}元</span>
+							</p>
+							<p>{{details.service_type|serviceWayFilter}}</p>
+						</div>
+					</div>
+					<div class="details-time" style="padding-top: 0px;">
+						<div class="details-time-right">
+							<p>时长：{{details.order_service_detail_vo.service_time}}分钟</p>
+							<p>服务截止时间：{{details.end_date}}</p>
+							<p>介绍：{{details.order_service_detail_vo.service_introduce}}</p>
+						</div>
+					</div>
+					<div class="details-time">
+						<div class="details-time-right order-details">
+							<p><span>使用优惠券</span></p>
+							<div><label>{{details.coupon_type|couponTypeFilter}}</label><span>{{[details.coupon_type, details.money]|preferentialAmountFilter}}</span></div>
+						</div>
+					</div>
+					<div class="icon-details" style="margin-top: 0px;">
+						<img src="../../img/important/3.png" />
+						<span style="margin-left: 10px;">支付金额：<a>{{details.discount_price}}元</a></span>
+					</div>
+					<template v-if="details.service_type == serviceWay.DOOR">
+						<div class="icon-details" style="margin-top: 0px;">
+							<img src="../../img/important/address.png" height="15px" style="width: auto;margin-right:10px;" />
+							<div>
+								<span style="margin-left: 10px;">{{details.order_address}}</span>
+							</div>
+						</div>
+					</template>
+					<div class="icon-details" style="margin-top: 0px;">
+						<img src="../../img/important/time12.png" />
+						<span style="padding-left: 10px;">{{details.service_time}}</span>
+						<a class="tel-a" :href="'tel:'+details.phone"><img src="../../img/important/mobilephone2.png" />立即联系</a>
+					</div>
+					<div class="icon-details" style="margin-top: 0px;">
+						<img src="../../img/important/my1.png" />
+						<span style="margin-left: 10px;">服务技师</span>
+						<div class="technician-details technician-details-c">
+							<ul>
+								<li style="border: none;">
+									<div class="technician-icon">
+										<img src="../../img/secondary/tim2g.png" />
+									</div>
+									<div class="technician-introduce">
+										<p class="technician-p1"><span>无名技师</span>
+											<a>服务55单</a>
+										</p>
+										<p class="technician-p2"><span>高级技师</span>
+											<a></a><span>按摩/全身按摩</span></p>
+										<p class="technician-p3"><span>4.5分</span></p>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</template>
+				<template v-if="details.is_finish == false">
+					<div class="details-title-box">
+						<div class="details-title-left">
+							<p class="details-title">{{details.order_service_detail_vo.service_title}}</p>
+							<p class="details-score">
+								<a>4.5分</a>
+							</p>
+						</div>
+					</div>
+					<div class="icon-details">
+						<img src="../../img/important/theorders.png" />
+						<span>服务详情</span>
+					</div>
+					<div class="text-details">
+						<div>
+							<span v-cloak>订单号：{{details.order_number}}</span>
+						</div>
+						<div>
+							<span class="use-type">{{details|orderStatusFilter}}</span>
+						</div>
+					</div>
+					<div class="details-time" style="border: none;">
+						<div class="details-time-right order-details">
+							<p><span>{{details.order_service_detail_vo.service_title}}</span><span>×1</span><span>{{details.order_service_detail_vo.service_price}}元</span></p>
+							<p>{{details.service_type|serviceWayFilter}}</p>
+						</div>
+					</div>
+					<div class="details-time" style="padding-top: 0px;">
+						<div class="details-time-right">
+							<p>时长：{{details.order_service_detail_vo.service_time}}分钟</p>
+							<p>介绍：{{details.order_service_detail_vo.service_introduce}}</p>
+						</div>
+					</div>
+					<div class="details-time">
+						<div class="details-time-right order-details">
+							<p><span>使用优惠券</span></p>
+							<div><label>{{details.coupon_type|couponTypeFilter}}</label><span>{{[details.coupon_type, details.money]|preferentialAmountFilter}}</span></div>
+						</div>
+					</div>
+					<div class="icon-details" style="margin-top: 0px;">
+						<img src="../../img/important/3.png" />
+						<span style="margin-left: 10px;">支付金额：<a>{{details.discount_price}}元</a></span>
+					</div>
+					<template v-if="details.service_type == serviceWay.DOOR">
+						<div class="icon-details" style="margin-top: 0px;">
+							<img src="../../img/important/address.png" height="15px" style="width: auto;margin-right:10px;" />
+							<div>
+								<span style="margin-left: 10px;">{{details.order_address}}</span>
+							</div>
+						</div>
+					</template>
+					<div class="icon-details" style="margin-top: 0px;">
+						<img src="../../img/important/time12.png" />
+						<span style="padding-left: 10px;">{{details.service_time}}</span>
+						<a class="tel-a" :href="'tel:' + details.phone"><img src="../../img/important/mobilephone2.png" />立即联系</a>
+					</div>
+					<template v-if="details.seller_orders_status == 'REFUSE_ORDERS' && show == 'true'">
+						<div class="icon-details" style="margin-top: 0px;">
+							<img src="../../img/important/my1.png" />
+							<span style="margin-left: 10px;">服务技师</span>
+							<div class="technician-details technician-details-c">
+								<ul>
+									<li style="border: none;">
+										<div class="technician-icon">
+											
+											<img v-if="chooseTec.head_url != ''" :src="chooseTec.head_url" />
+											<img v-else src="../../img/important/part.png" />
+										</div>
+										<div class="technician-introduce">
+											<p class="technician-p1"><span>{{chooseTec.name}}</span>
+												<a>服务{{chooseTec.number}}单</a>
+											</p>
+											<p class="technician-p2"><span>{{chooseTec.title}}</span>
+												<a></a><span>{{chooseTec.service_types}}</span></p>
+											<!--<p class="technician-p3"><span>4.5分</span></p>-->
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+					<!--待使用-->
+					<template v-if="details.seller_orders_status == 'REFUSE_ORDERS' && show == 'send'">
+						<div id="z_technician" class="icon-details " style="margin-top: 0px;">
+							<img src="../../img/important/my1.png" />
+							<span style="margin-left: 10px;">选择技师</span>
+							<a class="mui-icon mui-icon-arrowdown mui-pull-right"></a>
+							<div class=" order-technician">
+								<ul id="z_order_ul">
+									<template v-if="Technician != '' && Technician.length > 0" v-for="(list, index) in Technician"> 
+									<li>
+										<div class="technician-icon">
+											<img :src="list.head_url" />
+										</div>
+										<div class="technician-introduce">
+											<p class="technician-p1"><span>{{list.name}}</span>
+												<a>已服务{{list.number}}单</a>
+											</p>
+											<p class="technician-p2"><span>{{list.title}}</span>
+												<a></a><span>{{list.service_types}}</span></p>
+											<!--<p class="technician-p3"><span>4.5分</span></p>-->
+											<div @click="selectTechnician(event, list.sign)" class="select-technician">选择</div>
+										</div>
+									</li>
+									</template>
+								</ul>
+							</div>
+						</div>
+					</template>
+				</template>
+				<!--<div class="user-evaluation icon-details">
+					<img src="../../img/important/evaluation.png" />
+					<span>用户评价</span>
+					<span class="mui-pull-right">共22条评价</span>
+				</div>
+				<div class="user-lable">
+					<button class="user-lable-list">
+						<span>服务热情<a>52</a></span>
+					</button>
+					<button class="user-lable-list">
+						<span>技术高超<a>52</a></span>
+					</button>
+					<button class="user-lable-list">
+						<span>排山倒海<a>52</a></span>
+					</button>
+					<button class="user-lable-list">
+						<span>一针见血<a>52</a></span>
+					</button>
+					<button class="user-lable-list">
+						<span>在世华佗<a>52</a></span>
+					</button>
+				</div>
+				<div class="user-entity">
+					<div>
+						<div class="user-img">
+							<img src="../../img/secondary/tame5.png" />
+						</div>
+						<div class="evaluation-entity">
+							<p class="user-name">绿肥红瘦 <span class="mui-pull-right">2018/01/25</span></p>
+							<p class="user-score">
+								<a>4.5</a>
+							</p>
+							<p class="user-label">服务热情/店面干净</p>
+							<p class="user-text">很不错的师傅，下次我还来！</p>
+							<div class="entity-img">
+								<img src="../../img/important/zone.png" data-preview-src="" data-preview-group="1" />
+							</div>
+							<p class="reply"><button>回复</button></p>
+						</div>
+					</div>
+				</div>
+				<div class="user-entity">
+					<div>
+						<div class="user-img">
+							<img src="../../img/secondary/tame5.png" />
+						</div>
+						<div class="evaluation-entity">
+							<p class="user-name">绿肥红瘦 <span class="mui-pull-right">2018/01/25</span></p>
+							<p class="user-score">
+								<a>4.5</a>
+							</p>
+							<p class="user-label">服务热情/店面干净</p>
+							<p class="user-text">很不错的师傅，下次我还来！</p>
+							<div class="entity-img">
+								<img src="../../img/important/zone.png" data-preview-src="" data-preview-group="1" />
+							</div>
+							<p class="reply hide"><button>回复</button></p>
+						</div>
+					</div>
+					<div class="merchant-replies">
+						<div>
+							<img src="../../img/important/2.png" />
+							<span>我的回复</span>
+							<span>2018/01/12</span>
+						</div>
+						<span>谢谢朋友的支持，我们会继续努力。我们比任何人都坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强坚强</span>
+					</div>
+				</div>
+				<div class="more">
+					<p>查看更多评价
+						<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+					</p>
+				</div>-->
+			</template>
+		</div>
+		<!--<div class="input-box" style="display: none;">
+			<textarea id="z_reply" name="" rows="" cols="" placeholder="回复" autofocus="autofocus"></textarea>
+			<span>发送</span>
+		</div>-->
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/public.js"></script>
+		<script type="text/javascript" src="../../js/mui.zoom.js"></script>
+		<script type="text/javascript" src="../../js/mui.previewimage.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/orderdetails.js"></script>
+		<script type="text/javascript">
+			// 初始化previewImage
+			mui.previewImage();
+			//评星
+			var nodeing = $(".details-score>a")
+			score(4.5, nodeing);
+			var nodeing2 = $(".technician-p3>span")
+			score(4.5, nodeing2);
+			var nodeing3 = $(".user-score>a")
+			score(4.5, nodeing3);
+			//等比例
+			//			$(".technician-icon").css("height", $(".technician-icon").width() + "px");
+			//			$(".user-img").css("height", $(".user-img").width() + "px");
+			//			$(".entity-img").css("height", $(".entity-img").width() + "px");
+			//回复
+			//			$(".reply")[0].addEventListener("click", function() {
+			//				$(".input-box").show();
+			//				//触发键盘
+			//				document.getElementById('z_reply').focus()
+			//				//				$("#z_reply").trigger("click").focus();
+			//			});
+			//			$("#z_reply").blur(function() {
+			//				$(".input-box").hide();
+			//			});
+		</script>
+	</body>
+
+</html>

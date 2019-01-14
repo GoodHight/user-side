@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<h1 class="mui-title" style="color: #555;">详细资料</h1>
+			<a class="mui-icon mui-pull-right" style="color: #019eff;font-size:0.9rem;margin-top: 5px;" onclick="window.location.href='updata-information.html'">修改</a>
+		</header>
+		<div id="informationvue" v-cloak class="mui-content" style="background: #F3F3F3;">
+			<div v-if="info != null" class="info-list">
+				<p>名称：{{info.name}}</p>
+				<p>介绍：{{info.introduce}}</p>
+				<p>服务范围：{{info.category_name}}</p>
+				<p>服务地址：{{info.addr_code+info.service_address}}</p>
+				<p>联系电话：{{info.hotline}}</p>
+			</div>
+			<div class="info-img">
+				<p>
+					<img v-if="info.audit_status == 'PASS_THROUGH'" src="../../img/important/authenticationinformation.png" />
+					<img v-else src="../../img/important/certification11.png" />
+					<span>认证信息（{{info.audit_status|dealWithType}}）</span>
+				</p>
+				<div>
+					<template v-if="info != null && info.check_img != null && info.check_img.length > 0" v-for="(img, index) in info.check_img">
+						<div class="info-img-box">
+							<img :src="img" data-preview-src="" data-preview-group="1" />
+						</div>
+					</template>
+				</div>
+			</div>
+			<div class="info-img" style="margin-top: 5px;border-bottom: 1px solid #f3f3f3;">
+				<p>
+					<span>示意图</span>
+				</p>
+				<div>
+					<div class="info-img-box">
+						<img v-if="info.ad_head_url != ''" :src="info.ad_head_url" data-preview-src="" data-preview-group="2" />
+						<img v-if="info.ad_head_url == ''" src="../../img/important/add.png" />
+					</div>
+				</div>
+			</div>
+			<div class="info-img">
+				<p>
+					<span>宣传图册</span>
+				</p>
+				<div>
+					<template v-if="info != null && info.seller_ads.length > 0" v-for="(img, index) in info.seller_ads">
+						<div class="info-img-box">
+							<img :src="img.img_url" data-preview-src="" data-preview-group="1" />
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.zoom.js"></script>
+		<script type="text/javascript" src="../../js/mui.previewimage.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/information.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.previewImage();
+			$(window).ready(function() {
+				$(".info-img-box").css("height", $(".info-img-box").width() + "px");
+			});
+		</script>
+	</body>
+
+</html>

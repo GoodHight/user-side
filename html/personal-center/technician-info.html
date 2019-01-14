@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			
+			.mui-content {
+				background: #F3F3F3;
+			}
+			
+			.technician-btn {
+				width: 100% !important;
+				text-align: center !important;
+			}
+			
+			.technician-btn>span {
+				display: inline-block !important;
+				margin: 0px 10px;
+				width: 50px;
+				margin-top: 10px !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav search-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFF;"></a>
+			<h1 class="mui-title" style="color: #FFF;">技师详情</h1>
+		</header>
+		<div id="technicianinfo" v-cloak class="mui-content">
+			<div class="jsinfo-box">
+				<div class="jsinfo-img">
+					<img :src="infoList.head_url" />
+				</div>
+				<div class="technician-name"><span style="color: #555;">—</span><span>{{infoList.name}}</span><span style="color: #555;">—</span></div>
+				<div v-if="pagetype" class="technician-stars ">
+					<a></a>
+				</div>
+				<div v-cloak v-if="pagetype" class="technician-btn hide">
+					<span>通过</span>
+					<span>拒绝</span>
+				</div>
+			</div>
+			<div class="technician-label">
+				<p><span><img src="../../img/important/address2.png"/></span><span>{{infoList.seller_name}}</span></p>
+				<p><span><img src="../../img/important/experts.png"/></span><span>{{infoList.title}}</span></p>
+				<p><span><img src="../../img/important/service1.png"/></span><span>{{infoList.service_types|serviceText}}</span></p>
+				<p v-cloak v-if="pagetype" ><span><img src="../../img/important/thelabel.png"/></span><span>{{infoList.name}}</span></p>
+				<p v-cloak v-if="pagetype" ><span><img src="../../img/important/theorder1.png"/></span><span>共服务{{infoList.number}}单</span></p>
+			</div>
+			<div class="technician-label2" style="margin-top: 0px;">
+				<p><span>介绍</span></p>
+				<span>{{infoList.introduce}}</span>
+			</div>
+			<div class="technician-label" style="margin-top: 0px;">
+				<p><span><img src="../../img/important/certification11.png"/></span><span>认证信息<a>(已认证)</a></span></p>
+				<div class="technician-info-img">
+					<img :src="infoList.img_url1" data-preview-src="" data-preview-group="1"/>
+				</div>
+				<div class="technician-info-img">
+					<img :src="infoList.img_url2" data-preview-src="" data-preview-group="1"/>
+				</div>
+				<div class="technician-info-img">
+					<img :src="infoList.img_url3" data-preview-src="" data-preview-group="1"/>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/public.js"></script>
+		<script type="text/javascript" src="../../js/mui.previewimage.js"></script>
+		<script type="text/javascript" src="../../js/mui.zoom.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js" ></script>
+		<script type="text/javascript" src="../../js/app/app.js" ></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/app/html/technicianinfo.js" ></script>
+		<script type="text/javascript">
+			mui.init()
+			// 初始化previewImage
+			mui.previewImage();
+			$(".jsinfo-img").css("height", $(".jsinfo-img").width() + "px");
+			$(".technician-info-img").css("height", $(".technician-info-img").width() + "px");
+			//评星
+			var imgign = $(".technician-stars>a");
+			score(3.5, imgign);
+		</script>
+	</body>
+
+</html>

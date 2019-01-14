@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			.mui-content,
+			body {
+				background: #F3F3F3;
+			}
+			
+			.service-type>span {
+				font-size: 0.8rem;
+				color: #B0B0B0;
+				border-right: 1px solid #fff !important;
+			}
+			
+			.search-order {
+				color: #FFF !important;
+			}
+			
+			.orderbtn {
+				width: 100%;
+				display: block !important;
+				padding-top: 10px;
+			}
+			.orderbtn>button{
+				width: 40%;
+				border-radius:30px ;
+				padding: 5px 10px;
+				font-size: 0.8rem;
+			}
+			.orderbtn>button:nth-of-type(1){
+				background: #019Eff;
+				border: 1px solid #019Eff;
+				color: #fff;
+			}
+			.orderbtn>button:nth-of-type(2){
+				background: #EFF4F3;
+				border: 1px solid #EFF4F3;
+				color: #555;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="search-header">
+			<div id="z_order_time" class="add-search" style="float: left;">
+				<img src="../../img/important/time1.png" />
+			</div>
+			<div class="search-order-box">
+				<form id="myform" action="" onsubmit="return false;">
+					<input id="myinput" class="search-order" type="search" placeholder="请输入关键词" />
+				</form>
+			</div>
+			<div id="z_order_search" class="add-search">
+				<img src="../../img/important/message.png" />
+			</div>
+		</header>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item" href='../../index.html'>
+				<span class="mui-icon nlk-icon"><img src="../../img/important/homepage1.png"/></span>
+				<span class="mui-tab-label ">首页</span>
+			</a>
+			<a class="mui-tab-item" href='../my-service/service-list.html'>
+				<span class="mui-icon nlk-icon"><img src="../../img/important/service1.png"/></span>
+				<span class="mui-tab-label">我的服务</span>
+			</a>
+			<a class="mui-tab-item" href='../service-order/all-order.html'>
+				<span class="mui-icon nlk-icon"><img src="../../img/important/theorder.png"/></span>
+				<span class="mui-tab-label nlk-active">服务订单</span>
+			</a>
+			<a class="mui-tab-item" href='../personal-center/personal-center.html'>
+				<span class="mui-icon nlk-icon"><img src="../../img/important/personalcenter1.png"/></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<div id="allordervue" class="mui-content" style="padding-top: 44px;">
+			<div class="order-time-box" style="display: none;">
+				<div class="order-time">
+					<div><span>最近三天</span></div>
+					<div><span>最近一周</span></div>
+					<div><span>最近一月</span></div>
+					<div><span class="btn">更多</span></div>
+				</div>
+			</div>
+			<div class="service-cont" style="padding-right: 0px;">
+				<div class="service-top">
+					<ul class="service-ul order-ul">
+						<li @click="typeSelect(event, '')" class="service-text-c">全部</li>
+						<li @click="typeSelect(event, 'true')">已完成</li>
+						<li @click="typeSelect(event, 'false')">待完成</li>
+					</ul>
+				</div>
+				<div class="search-content">
+					<ul>
+						<template v-if="orderList != null " v-for="(list, idnex) in orderList">
+							<li @click="orderDetails(event, list.order_status, list.sign)" class="service-list">
+								<div class="service-box">
+									<img :src="list.img_url" />
+								</div>
+								<div class="service-content">
+									<div class="service-content-box">
+										<div class="service-cont">
+											<p class="service-name">{{list.service_title}}</p>
+											<p class="service-score">
+												<span>￥{{list.discount_price}}/人</span>
+											</p>
+											<p class="service-type">
+												<span>订单号：{{list.order_number}}</span>
+											</p>
+											<p class="service-type">
+												<span>下单时间：{{list.created_time|dealWithDate}}</span>
+											</p>
+											<p class="service-type">
+												<span>预约时间：{{list.service_time|dealWithDate}}</span>
+											</p>
+											<!--<p class="service-type">
+												<span>{{list.time}}</span>
+											</p>-->
+											<p v-if="list.order_status == 'PAY_SUCCESS' && list.seller_orders_status == 'WAIT_ORDERS'" class="orderbtn">
+												<button @click.stop="orderOperation(event, list.sign, 'REFUSE_ORDERS', list.service_type, list.sign)">接单</button>
+												<button @click.stop="orderOperation(event, list.sign, 'ALREADY_ORDERS', list.service_type, list.sign)">拒单</button>
+											</p>
+										</div>
+										<div class="service-operation">
+											<div class="order-1">
+												<span class="order-type">{{list.order_status|dealWithType}}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="service-operation2">
+									<div class="order-1">
+										<img v-if="list.service_type == 'STORE'" src="../../img/important/y77.png" />
+										<img v-else src="../../img/important/y55.png" />
+										<span v-if="list.service_type == 'STORE'">到店</span>
+										<span v-else>上门</span>
+									</div>
+								</div>
+							</li>
+						</template>
+						<li v-cloak v-if="orderList != null && orderList.length >= orderTotal" class="service-prompt">
+							<p>没有更多内容了</p>
+						</li>
+						<li @click="getMore()" v-cloak v-else-if=" orderList != null && orderList.length > 0 " class="service-prompt">
+							<p>加载更多</p>
+						</li>
+						<li v-cloak v-if="ordertype" class="service-prompt">
+							<p>暂无订单</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/public.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/allorder.js"></script>
+		<script type="text/javascript">
+			mui('body').on('tap', 'a', function() {
+				document.location.href = this.href;
+			});
+
+			function plusReady() {
+				// 设置系统状态栏背景为主题蓝色
+				plus.navigator.setStatusBarBackground("#019EFF");
+				// 设置系统状态栏样式为浅色文字
+				plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			};
+
+			//这两种都能用, 一个是在form上加id 一个是在input元素加id
+			//对于苹果手机添加一个form元素是必要的,否则只能实现功能但是键盘的文字不能变成搜索字样
+			$('#myform').bind('search', function() {
+				//coding
+				alert(1);
+			});
+			//			$('#myinput').bind('search', function() {
+			//				//coding
+			//				alert(1);
+			//			});
+			$(".search-type").on("tap", "div", function() {
+				$(this).siblings().removeClass("search-type-c");
+				$(this).siblings().children("hr").css("border-bottom", "1px solid #019Eff;");
+				$(this).addClass("search-type-c");
+				$(this).children("hr").css("border-bottom", "1px solid white;");
+			});
+			$(".service-box").css("height", $(".service-box").width() + "px");
+			//评星
+			var nodeing = $(".service-score>span");
+			score(3.5, nodeing);
+			$(".service-ul").on("tap", "li", function() {
+				$(this).addClass("service-text-c");
+				$(this).siblings().removeClass("service-text-c");
+			});
+			//添加
+			$("#z_order_search")[0].addEventListener("tap", function() {
+				//				window.location.href = 'new-evaluation.html'
+				app.blocaked();
+			});
+			//服务详情
+			//			$(".search-content").on("tap", "li", function() {
+			//				console.log($(this).attr("name"));
+			//				if($(this).attr("name") == "select") {
+			//					window.location.href = 'order-select.html'
+			//				} else {
+			//					window.location.href = 'order-details.html'
+			//				}
+			//			});
+			//时间选择
+			var timetype = true;
+			$("#z_order_time")[0].addEventListener("tap", function() {
+				app.blocaked();
+				//				if(timetype) {
+				//					$(".order-time-box").show();
+				//					$(".order-time").css({
+				//						"margin-top": "44px",
+				//						"transition": "0.5s"
+				//					});
+				//					timetype = false;
+				//				} else {
+				//					$(".order-time").css({
+				//						"margin-top": "-11px",
+				//						"transition": "0.5s"
+				//					});
+				//					setTimeout(function() {
+				//						$(".order-time-box").hide();
+				//					}, 500);
+				//					timetype = true;
+				//				}
+			});
+			//			$(".order-time-box")[0].addEventListener("tap", function() {
+			//				$(".order-time").css({
+			//					"margin-top": "-11px",
+			//					"transition": "0.5s"
+			//				});
+			//				setTimeout(function() {
+			//					$(".order-time-box").hide();
+			//				}, 500);
+			//				timetype = true;
+			//			});
+			mui.init();
+			var btns = $('.btn');
+			var data_options = '{"type":"date","beginYear":2018,"endYear":2025}'
+			btns.each(function(i, btn) {
+				btn.addEventListener('tap', function() {
+					var optionsJson = data_options || '{}';
+					var options = JSON.parse(optionsJson);
+					var id = this.getAttribute('id');
+					var picker = new mui.DtPicker(options);
+					picker.show(function(rs) {
+						console.log(rs.text);
+						picker.dispose();
+						$(".order-time").css({
+							"margin-top": "-11px",
+							"transition": "0.5s"
+						});
+						setTimeout(function() {
+							$(".order-time-box").hide();
+						}, 500);
+					});
+				}, false);
+			});
+		</script>
+	</body>
+
+</html>

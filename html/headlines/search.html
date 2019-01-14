@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<style type="text/css">
+			.search-box {
+				width: 70%;
+				float: left;
+				margin-left: 5%;
+			}
+			
+			.search-right {
+				width: 15%;
+				float: right;
+				height: 35px;
+				line-height: 35px;
+				margin-top: 5px;
+				text-align: center;
+				font-size: 0.9rem;
+				color: #555;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="headervue" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<form>
+				<div class="search-box">
+					<input id="z_search" v-model="searchConent" type="text" name="" id="" value="" placeholder="搜索" />
+				</div>
+				<div @click ="searchBtn()" class="search-right">确定</div>
+			</form>
+		</header>
+		<div id="searchvue" class="mui-content">
+			<div class="search-lable">
+				<p>历史搜索</p>
+				<ul>
+					<template v-if="searchList != null " v-for="(list, index) in searchList">
+					<li>{{list}}</li>
+					</template>
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js" ></script>
+		<script type="text/javascript" src="../../js/app/app.js" ></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/app/html/search.js" ></script>
+		<script type="text/javascript">
+			mui.init()
+//			$("form").submit(function() {
+//				alert("开始搜索" + $("#z_search").val());
+//			});
+		</script>
+	</body>
+
+</html>

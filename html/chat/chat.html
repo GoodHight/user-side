@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="../../css/public.css"/>
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<style type="text/css">
+			.mui-bar {
+				box-shadow: none;
+				border-bottom: 1px solid #ccc;
+			}
+			
+			html {
+				position: relative;
+			}
+			
+			body,
+			.mui-content {
+				background: #F3F3F3;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">对应模块名称</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="chat-ul">
+				<li>
+					<p class="chst-time">18:25</p>
+				</li>
+				<li class="chat-me">
+					<div class="my-icon">
+						<img src="../../img/secondary/a2.png" />
+					</div>
+					<div>
+						<div>
+							你什么时候过来？再不来我走了！
+							<div class="test"></div>
+						</div>
+					</div>
+				</li>
+				<!--对方的发的-->
+				<li class="chat-he">
+					<div class="my-icon">
+						<img src="../../img/secondary/a2.png" />
+					</div>
+					<div>
+						<div>
+							马上来了不要着急哦亲！
+							<div class="test"></div>
+						</div>
+					</div>
+				</li>
+				<!--对方发的end-->
+				<!--我的发的-->
+				<li class="chat-me">
+					<div class="my-icon">
+						<img src="../../img/secondary/a2.png" />
+					</div>
+					<div>
+						<div>
+							这句话你说了多少遍了？
+							<div class="test"></div>
+						</div>
+					</div>
+				</li>
+				<!--我发的end-->
+				<!--我发的图片-->
+				<li class="chat-me">
+					<div class="my-icon">
+						<img src="../../img/secondary/a2.png" />
+					</div>
+					<div>
+						<div class="send-img">
+							<img class="send-img-s" src="../../img/secondary/timg.png" data-preview-src="" data-preview-group="1" />
+							<div class="test"></div>
+						</div>
+
+					</div>
+				</li>
+				<!--我发的图片end-->
+			</ul>
+		</div>
+		<div class="input-box">
+				<div id="z_img"><img src="../../img/important/picture11.png" /></div>
+				<div class="text-cont"><textarea id="z_text"></textarea></div>
+				<div id="z_send">发送</div>
+		</div>
+		<input type="file" name="" id="file1" onchange="filechange(event)" style="display: none;" />
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.zoom.js"></script>
+		<script type="text/javascript" src="../../js/mui.previewimage.js"></script>
+		<script type="text/javascript">
+			// 初始化previewImage
+			mui.previewImage();
+			mui.init()
+			$(".my-icon").css("height", $(".my-icon").width() + "px");
+			//模拟发送
+			$("#z_send")[0].addEventListener("click", function() {
+				//获得内容
+				var sendText = $("#z_text").val();
+				var sendmodel = '<li class="chat-me"><div class="my-icon"><img src="../../img/secondary/pqiao.jpg"/></div><div><div>' + sendText + '<div class="test"></div></div></div></li>'
+				if(sendText != "") {
+					$(".chat-ul").append(sendmodel);
+				};
+				//清空文本框
+				$("#z_text").val("");
+				$("#z_text").blur();
+				//调整头像大小
+				$(".my-icon").css("height", $(".my-icon").width() + "px");
+				$(".input-box").css("bottom", "0px");
+				//页面滚动到底部
+				scroll();
+			});
+			$("#z_img")[0].addEventListener("tap", function() {
+				$("#file1").click();
+			});
+			//获得焦点
+			$("#z_text").focus(function(){
+				var bheight = $(window).height(); //获取窗口高度
+				var sheight = $(".chat-ul").height();
+				var stop = (sheight - bheight) + 94; //滚动条的底部距离
+				setTimeout(function(){
+//					alert(stop);
+				},1000);
+				
+			});
+			//上传图片
+			var filechange = function(event) {
+				var files = event.target.files,
+					file;
+				if(files && files.length > 0) {
+					// 获取目前上传的文件
+					file = files[0]; // 文件大小校验的动作
+//					if(file.size > 1024 * 200) {
+//						alert('图片大小不能超过 200kb!');
+//						return false;
+//					}
+					// 获取 window 的 URL 工具
+					var URL = window.URL || window.webkitURL;
+					// 通过 file 生成目标 url
+					var imgURL = URL.createObjectURL(file);
+					//定义图片消息model //将img的src属性改成获得的url
+					var sendmodel = '<li class="chat-me"><div class="my-icon"><img src="../../img/secondary/pqiao.jpg"/></div><div><div><img  class="send-img-s" src="' + imgURL + '"data-preview-src="" data-preview-group="1"/><div class="test"></div></div></div></li>'
+					//添加到页面
+					$(".chat-ul").append(sendmodel);
+					//调整头像大小
+					$(".my-icon").css("height", $(".my-icon").width() + "px");
+					// 使用下面这句可以在内存中释放对此 url 的伺服，跑了之后那个 URL 就无效了
+					// URL.revokeObjectURL(imgURL);
+					event.target.value = '' //避免同名文件不能上传
+					//页面滚动到底部
+					scroll();
+				}
+			};
+			//监听滚动条
+			function scroll() {
+				var bheight = $(window).height(); //获取窗口高度
+				var sheight = $(".chat-ul").height();
+				var stop = (sheight - bheight) + 94; //滚动条的底部距离
+				$(window).scrollTop(stop);
+			};
+		</script>
+		<!--<script language="javascript">
+			window.onload = function() {
+				var u = navigator.userAgent;
+				if(u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) { //安卓手机
+					alert("安卓手机");
+					// window.location.href = "mobile/index.html";
+				} else if(u.indexOf('iPhone') > -1) { //苹果手机
+					// window.location.href = "mobile/index.html";
+					alert("苹果手机");
+				} else if(u.indexOf('Windows Phone') > -1) { //winphone手机
+					alert("winphone手机");
+					// window.location.href = "mobile/index.html";
+				}
+			}
+		</script>-->
+	</body>
+
+</html>

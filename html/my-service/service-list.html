@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/iconfont.css" />
+		<style type="text/css">
+			.mui-content,
+			body {
+				background: #F3F3F3;
+			}
+			
+			.hr-type-c {
+				border-bottom: 1px solid white !important;
+			}
+			
+			.mui-popup-button.mui-popup-button-bold {
+				font-weight: initial;
+			}
+		</style>
+	</head>
+	<body>
+		<header id="headervue" class="search-header">
+			<div class="search-type">
+				<div @click="headerCut(event, 'list')" id="z_search" :class="pageClass == 'list'?'search-type-c':''">服务
+					<hr :class="pageClass == 'list'? 'hr-type-c':''" />
+				</div>
+				<div @click="headerCut(event, 'card')" id="z_card" :class="pageClass =='card'?'search-type-c':''">卡券
+					<hr :class="pageClass == 'card'? 'hr-type-c':''" />
+				</div>
+			</div>
+			<div @click="jumpCreate(event)" class="add-search">
+				<img src="../../img/important/adds.png" />
+			</div>
+		</header>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item" href='../../index.html'>
+				<span class="mui-icon nlk-icon"><img src="../../img/important/homepage1.png"/></span>
+				<span class="mui-tab-label ">首页</span>
+			</a>
+			<a class="mui-tab-item" href='../my-service/service-list.html'>
+				<span class="mui-icon nlk-icon"><img src="../../img/important/services.png"/></span>
+				<span class="mui-tab-label nlk-active">我的服务</span>
+			</a>
+			<a class="mui-tab-item" href='../service-order/all-order.html'>
+				<span class="mui-icon nlk-icon"><img src="../../img/important/theorder1.png"/></span>
+				<span class="mui-tab-label">服务订单</span>
+			</a>
+			<a class="mui-tab-item" href='../personal-center/personal-center.html'>
+				<span class="mui-icon nlk-icon"><img src="../../img/important/personalcenter1.png"/></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<div id="servicelist" class="mui-content" style="padding-top: 44px;">
+			<div v-if="pageClass == 'list'" class="service-cont" style="padding-right: 0px;">
+				<div class="service-top">
+					<ul class="service-ul">
+						<li @click="typeSelect(event, list.sign)" class="service-text-c">全部</li>
+						<template v-if="HdList != null && HdList.length > 0" v-for="(list, index) in HdList">
+							<li @click="typeSelect(event, list.sign)">{{list.category_name}}</li>
+						</template>
+					</ul>
+				</div>
+				<div class="search-content">
+					<ul>
+						<template v-if="servicelist != null && servicelist.length > 0" v-for="(list, index) in servicelist">
+							<li @click="getService(event, list.sign)" class="service-list">
+								<div class="service-box">
+									<img :src="list.img_url" />
+								</div>
+								<div class="service-content">
+									<div class="service-content-box">
+										<div class="service-cont">
+											<p class="service-name">{{list.service_title}}</p>
+											<p class="service-score">
+												<span :data-star="list.evaluate_star">￥{{list.service_price}}/人</span>
+											</p>
+											<p class="service-type">
+												<span>{{list.service_type_name}}</span>
+												<img src="../../img/important/47414587227207135.png" />
+											</p>
+										</div>
+										<div class="service-operation">
+											<div @click.stop="deleteService(event, list.sign)">
+												<img src="../../img/important/delete.png" />
+											</div>
+											<!--<div>
+												<img src="../../img/important/write.png" />
+											</div>-->
+										</div>
+									</div>
+									<div class="service-conclusion">
+										<span><img src="../../img/important/fire.png"/>{{list.number}}人到店消费</span>
+										<span><img src="../../img/important/money.png"/>累计消费{{list.order_amount.toFixed(2)}}</span>
+									</div>
+								</div>
+								<div class="service-state">
+									<img v-if="list.audit_status == 'WAIT_AUDIT' && !list.is_shelves" src="../../img/important/toaudit.png" />
+									<img v-else-if="list.is_shelves && list.audit_status == 'PASS_THROUGH'" src="../../img/important/shelves2.png" />
+									<img v-else-if="!list.is_shelves && list.audit_status == 'NOT_THROUGH'" src="../../img/important/noshelves.png" />
+									<img v-else src="../../img/important/shelves.png" />
+								</div>
+							</li>
+						</template>
+						<li v-cloak v-if="servicelist != null  && servicelist.length >= total" class="service-prompt">
+							<p>没有更多服务了</p>
+						</li>
+						<li v-cloak v-if="service" class="service-prompt">
+							<p>还没有服务哦</p>
+						</li>
+						<li v-cloak @click="getMore()" v-if="servicelist != null  && servicelist.length < total" class="service-prompt">
+							<p>点击加载更多服务</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div v-if="pageClass == 'card'" class="card-cont">
+				<ul class="card-ul">
+					<template v-if="cardList != null && cardList.length > 0" v-for="(list, index) in cardList">
+						<li>
+							<div class="card-icon">
+								<img v-if="list.coupon_type == 'DEDUCTIBLE_CARD'" src="../../img/important/redenvelope.png" />
+								<img v-if="list.coupon_type == 'CASH_BONUS'" src="../../img/important/redenvelope1.png" />
+								<img v-if="list.coupon_type == 'DEDUCTIBLE_BONUS'" src="../../img/important/redenvelope2.png" />
+							</div>
+							<div class="card-info">
+								<div class="card-info-left">
+									<p class="card-title">{{list.name}}</p>
+									<p class="card-situation">
+										<span>份数：<a>{{list.number}}</a></span>
+										<span v-if="list.coupon_type == 2">已领：0</span>
+										<span v-if="list.coupon_type == 2">使用：0</span>
+									</p>
+									<p class="card-conditions">条件：{{list.conditions}}</p>
+									<p class="card-effective">有效期：{{list.validity_time}}</p>
+								</div>
+								<div class="card-operation">
+									<div>
+										<span v-if="list.coupon_type == 'DEDUCTIBLE_CARD'">{{list.money}}折</span>
+										<span v-else>{{list.money}}元</span>
+									</div>
+									<div>
+										<div @click.stop="deleteCard(event, list.sign)"><img src="../../img/important/delete.png" /></div>
+										<!--<div><img src="../../img/important/write.png" /></div>-->
+									</div>
+								</div>
+							</div>
+							<div class="card-audit">
+								<!--待审核-->
+								<img v-if="list.audit_status == 'WAIT_AUDIT'" src="../../img/important/audit.png" />
+								<!--已通过-->
+								<img v-if="list.audit_status == 'PASS_THROUGH'" src="../../img/important/havebeenthrough.png" />
+								<!--未通过-->
+								<img v-if="list.audit_status == 'NOT_THROUGH'" src="../../img/important/notthrough.png" />
+								<!--已失效-->
+								<!--<img src="../../img/important/has the failure.png"/>-->
+							</div>
+						</li>
+					</template>
+					    <li v-cloak v-if="codec" class="service-prompt">
+							<p>还没有卡券哦</p>
+						</li>
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/public.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/servicelist.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(".service-box").css("height", $(".service-box").width() + "px");
+
+			$(".service-ul").on("tap", "li", function() {
+				$(this).addClass("service-text-c");
+				$(this).siblings().removeClass("service-text-c");
+			});
+			mui('body').on('tap', 'a', function() {
+				document.location.href = this.href;
+			});
+			function plusReady() {
+				// 设置系统状态栏背景为主题蓝色
+				plus.navigator.setStatusBarBackground("#019EFF");
+				// 设置系统状态栏样式为浅色文字
+				plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+		</script>
+	</body>
+
+</html>

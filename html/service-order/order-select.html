@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/public.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #f5f5f5;
+			}
+			.mui-slider-item{
+				min-height: 200px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<h1 class="mui-title" style="color: #555;">订单详情</h1>
+		</header>
+		<div id="orderselect" v-cloak class="mui-content" style="background: #f5f5f5;">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img :src="orederInfo.seller_img_ad_vos[orederInfo.seller_img_ad_vos.length-1].img_url">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<template v-if="orederInfo != null && orederInfo.seller_img_ad_vos.length > 0" v-for="(img, index) in orederInfo.seller_img_ad_vos">
+						<div class="mui-slider-item">
+							<a href="#">
+								<img :src="img.img_url">
+							</a>
+						</div>
+					</template>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img :src="orederInfo.seller_img_ad_vos[0].img_url">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<template v-for="(img, index) in orederInfo.seller_img_ad_vos">
+						<div :class="index == 0? 'mui-indicator mui-active':'mui-indicator'"></div>
+					</template>
+				</div>
+			</div>
+			<div class="details-title-box">
+				<div class="details-title-left">
+					<p class="details-title">{{name}}</p>
+					<p class="details-score">
+						<a>4.5分</a>
+					</p>
+				</div>
+			</div>
+			<div class="icon-details">
+				<img src="../../img/important/theorders.png" />
+				<span>服务详情</span>
+			</div>
+			<div class="text-details">
+				<div>
+					<span>订单号：{{orederInfo.order_number}}</span>
+				</div>
+				<div>
+					<span class="use-type">待服务</span>
+				</div>
+			</div>
+			<div class="details-time" style="border: none;">
+				<div class="details-time-right order-details">
+					<p><span>{{orederInfo.order_service_detail_vo.service_title}}</span><span>×1</span><span>{{orederInfo.order_service_detail_vo.service_price}}元</span></p>
+					<p v-if="orederInfo.order_service_detail_vo.service_type == 1">上门服务</p>
+					<p v-else>到店服务</p>
+				</div>
+			</div>
+			<div class="details-time" style="padding-top: 0px;">
+				<div class="details-time-right">
+					<p>时长：{{orederInfo.order_service_detail_vo.service_time}}分钟</p>
+					<p>介绍：{{orederInfo.order_service_detail_vo.service_introduce}}</p>
+				</div>
+			</div>
+			<div class="details-time">
+				<div class="details-time-right order-details">
+					<p><span>使用优惠券</span></p>
+					<div><label>现金</label><span>5元优惠券</span></div>
+				</div>
+			</div>
+			<div class="icon-details" style="margin-top: 0px;">
+				<img src="../../img/important/3.png" />
+				<span style="margin-left: 10px;">支付金额：<a>75元</a></span>
+			</div>
+			<div class="icon-details" style="margin-top: 0px;">
+				<img src="../../img/important/address.png" height="15px" style="width: auto;margin-right:10px;" />
+				<div>
+					<span style="margin-left: 10px;">重庆市江北区观音桥步行街大融城6F转4号出口右行25米</span>
+				</div>
+			</div>
+			<div class="icon-details" style="margin-top: 0px;">
+				<img src="../../img/important/time12.png" />
+				<span style="padding-left: 10px;">{{orederInfo.created_time}}</span>
+				<a class="tel-a" href="tel:123456"><img src="../../img/important/mobilephone2.png" />立即联系</a>
+			</div>
+			<!--待使用-->
+			<div id="z_technician" class="icon-details" style="margin-top: 0px;">
+				<img src="../../img/important/my1.png" />
+				<span style="margin-left: 10px;">选择技师</span>
+				<a class="mui-icon mui-icon-arrowdown mui-pull-right"></a>
+				<div class="technician-details order-technician">
+					<ul id="z_order_ul">
+						<li>
+							<div class="technician-icon">
+								<img src="../../img/secondary/tim2g.png" />
+							</div>
+							<div class="technician-introduce">
+								<p class="technician-p1"><span>无名技师</span>
+									<a>服务55单</a>
+								</p>
+								<p class="technician-p2"><span>高级技师</span>
+									<a></a><span>按摩/全身按摩</span></p>
+								<p class="technician-p3"><span>4.5分</span></p>
+								<div class="select-technician">选择</div>
+							</div>
+						</li>
+						<li>
+							<div class="technician-icon">
+								<img src="../../img/secondary/tim2g.png" />
+							</div>
+							<div class="technician-introduce">
+								<p class="technician-p1"><span>无名技师</span>
+									<a>服务55单</a>
+								</p>
+								<p class="technician-p2"><span>高级技师</span>
+									<a></a><span>按摩/全身按摩</span></p>
+								<p class="technician-p3"><span>4.5分</span></p>
+								<div class="select-technician">选择</div>
+							</div>
+						</li>
+						<li>
+							<div class="technician-icon">
+								<img src="../../img/secondary/tim2g.png" />
+							</div>
+							<div class="technician-introduce">
+								<p class="technician-p1"><span>无名技师</span>
+									<a>服务55单</a>
+								</p>
+								<p class="technician-p2"><span>高级技师</span>
+									<a></a><span>按摩/全身按摩</span></p>
+								<p class="technician-p3"><span>4.5分</span></p>
+								<div class="select-technician">选择</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="input-box" style="display: none;">
+			<textarea id="z_reply" name="" rows="" cols="" placeholder="回复" autofocus="autofocus"></textarea>
+			<span>发送</span>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/public.js"></script>
+		<script type="text/javascript" src="../../js/mui.zoom.js"></script>
+		<script type="text/javascript" src="../../js/mui.previewimage.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/orderselect.js"></script>
+		<script type="text/javascript">
+			// 初始化previewImage
+			mui.previewImage();
+			//评星
+			var nodeing = $(".details-score>a")
+			score(4.5, nodeing);
+			var nodeing2 = $(".technician-p3>span")
+			score(4.5, nodeing2);
+			var nodeing3 = $(".user-score>a")
+			score(4.5, nodeing3);
+			//等比例
+			$(".technician-icon").css("height", $(".technician-icon").width() + "px");
+			$(".user-img").css("height", $(".user-img").width() + "px");
+			$(".entity-img").css("height", $(".entity-img").width() + "px");
+			
+			//回复
+			$(".reply").on("click", function() {
+				$(".input-box").show();
+				//触发键盘
+				document.getElementById('z_reply').focus()
+				//				$("#z_reply").trigger("click").focus();
+			});
+			//			$("#z_reply").blur(function() {
+			//				$(".input-box").hide();
+			//			});
+			//选择
+			$("#z_order_ul").on("tap", "li", function() {
+				$(this).toggleClass("select-technician-c");
+				event.stopPropagation();
+			});
+			$("#z_order_ul").on("tap", ".select-technician", function() {
+				$(this).toggleClass("select-technician-c");
+				event.stopPropagation();
+			});
+		</script>
+	</body>
+
+</html>

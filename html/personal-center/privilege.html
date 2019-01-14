@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			.mui-content{
+				background: #F3F3F3;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;" onclick="window.location.href='personal-center.html'"></a>
+			<h1 class="mui-title" style="color: #555;">等级特权</h1>
+		</header>
+		<div class="mui-content">
+			<div>
+				<ul class="privilege-box">
+					<li>
+						<div class="privilege-left">
+							<img src="../../img/important/level.png" />
+						</div>
+						<div class="privilege-list">
+							<p class="privilege-list-time">2018/01/11</p>
+							<p class="privilege-list-title">累计积分3分</p>
+							<p class="privilege-list-content">健康咨询1级</p>
+							<p class="privilege-list-lqtime">获取等级特权时间：2018/01/11</p>
+						</div>
+						<div class="privilege-img">
+							<img src="../../img/important/pqs2.png"/>
+						</div>
+					</li>
+					<li class="can-receive">
+						<div class="privilege-left">
+							<img src="../../img/important/level.png" />
+						</div>
+						<div class="privilege-list">
+							<p class="privilege-list-title">累计积分3分</p>
+							<p class="privilege-list-content">健康咨询1级</p>
+							<p class="privilege-list-lqtime">获取等级特权时间：2018/01/11</p>
+						</div>
+						<div class="privilege-img">
+							<img src="../../img/important/pqs3.png"/>
+						</div>
+					</li>
+					<li>
+						<div class="privilege-left">
+							<img src="../../img/important/level.png" />
+						</div>
+						<div class="privilege-list">
+							<p class="privilege-list-title">累计积分3分</p>
+							<p class="privilege-list-content">健康咨询1级</p>
+						</div>
+						<div class="privilege-img">
+							<img src="../../img/important/pqs.png"/>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="get-success" style="display:none;">
+			<div>
+				<img src="../../img/important/gettheprivilege.png"/>
+				<div class="get-info">
+					<p>累计积分20分</p>
+					<p>等级特权领取成功</p>
+				</div>
+				<div id="z_close" class="get-close">
+					<img src="../../img/important/wrong.png"/>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(".can-receive")[0].addEventListener("tap",function(){
+				$(".get-success").show();
+			});
+			$("#z_close")[0].addEventListener("tap",function(){
+				$(".get-success").hide();
+			});
+		</script>
+	</body>
+
+</html>

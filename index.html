@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/merchants-style.css" />
+		<link rel="stylesheet" href="css/public.css" />
+		<style type="text/css">
+			.mui-content {
+				background: #F2F2F2;
+			}
+			
+			.banner-slider,
+			.mui-slider-item-duplicate {
+				min-height: 200px;
+				max-height: 250px !important;
+				overflow: hidden !important;
+			}
+			.header {
+				background: #fff;
+			}
+			
+			.header .sousuo {
+				width: 90%!important;
+				margin: 8px 5% !important;
+				background:#F2F2F2;
+			}
+			
+			.mui-search .mui-placeholder {
+				color: #019EFF;
+				position: absolute;
+				top: 8px;
+			}
+			.mui-icon-search:before{
+				color: #019EFF;
+			}
+			.ln-search {
+				position: absolute;
+				right: 5%;
+				top: 9px;
+				background: #F2F2F2;
+				border: none;
+				color: #019EFF !important;
+			}
+			input{
+				color: #019EFF!important;
+			}
+			.mui-search::before{
+				color: #019EFF!important;
+				margin-left: 5%;
+				margin-top: -9px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #F2F2F2;">
+		<div id="header" class="header">
+			<div class="mui-input-row mui-search">
+				<input v-model="searchText" type="search" class="sousuo" placeholder="输入关键字搜索">
+				<button @click="searchBtn()" class="ln-search">搜索</button>
+			</div>
+		</div>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" href='index.html'>
+				<span class="mui-icon nlk-icon"><img src="img/important/homepage.png"/></span>
+				<span class="mui-tab-label nlk-active">首页</span>
+			</a>
+			<a id="z_service" class="mui-tab-item" href="html/my-service/service-list.html">
+				<span class="mui-icon nlk-icon"><img src="img/important/service1.png"/></span>
+				<span class="mui-tab-label">我的服务</span>
+			</a>
+			<a class="mui-tab-item" href='html/service-order/all-order.html'>
+				<span class="mui-icon nlk-icon"><img src="img/important/theorder1.png"/></span>
+				<span class="mui-tab-label">服务订单</span>
+			</a>
+			<a class="mui-tab-item" href='html/personal-center/personal-center.html'>
+				<span class="mui-icon nlk-icon"><img src="img/important/personalcenter1.png"/></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<div id="indexvue" v-cloak class="mui-content" style="display: block;">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div v-cloak v-if=" bannerlist != ''" class=" banner-slider mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img :src="bannerlist[bannerlist.length-1].img_url">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<template v-cloak v-if=" bannerlist != ''" v-for="(list, index) in bannerlist">
+						<div class=" banner-slider mui-slider-item">
+							<a href="#">
+								<img :src="list.img_url">
+							</a>
+						</div>
+					</template>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div v-cloak v-if=" bannerlist != ''" class=" banner-slider mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img :src="bannerlist[0].img_url">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<template v-for="(img, index) in bannerlist">
+						<div :class="index==0?'mui-indicator':'mui-indicator mui-active' "></div>
+					</template>
+				</div>
+			</div>
+			<div v-if="HdList != null " class="info-type">
+				<ul>
+					<li @click="typeSelect(event, '')" class="info-type-c">全部</li>
+					<template v-if="HdList != null " v-for="(list, index) in HdList">
+						<li @click="typeSelect(event, list.sign)">{{list.name}}</li>
+					</template>
+				</ul>
+				<div id="z_refresh" v-if="headerList != null && headerList.length > 0">
+					<img id="z_img" src="img/important/bottomjt.png" />
+					<img id="z_gif" src="img/important/5-121204193R5-50.gif" style="display: none;" />
+					<span>下拉刷新</span>
+				</div>
+			</div>
+			<div class="graphic-box">
+				<template v-if="headerList != null" v-for="(info, index) in headerList">
+					<div class="graphic">
+						<div class="graphic-top">
+							<div class="graphic-top-lift">
+								<div class="graphic-img">
+									<img src="img/important/touxiang.png" />
+								</div>
+								<div class="graphic-info">
+									<p>平台头条君</p>
+									<p>{{info.created_time}}</p>
+								</div>
+							</div>
+							<div class="graphic-top-right">
+								<span>{{info.name}}</span>
+							</div>
+						</div>
+						<div id="z_graphic_text" class="graphic-text">
+							<span>{{info.content}}</span>
+							<p @click="fullText(event, info.sign)">查看全文</p>
+						</div>
+						<div v-if="info.img_url" class="graphic-picture">
+							<img :src="info.img_url" data-preview-src="" data-preview-group="1" />
+						</div>
+					</div>
+				</template>
+				<div v-if=" headerList != null" class="loading">
+					<p v-cloak v-if="headerList != null && headerList.length <= pagetotal">已经到底啦</p>
+					<p v-else @click="getMoreHeader()">点击加载更多</p>
+				</div>
+			</div>
+			<div @click="getNewheader(event)" class="refresh-fild" style="display: none;">
+				<img src="img/important/refresh-fied.png" />
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/zepto.min.js"></script>
+		<script type="text/javascript" src="js/touch.js"></script>
+		<script type="text/javascript" src="js/mui.zoom.js"></script>
+		<script type="text/javascript" src="js/mui.previewimage.js"></script>
+		<script type="text/javascript" src="js/app/common.js"></script>
+		<script type="text/javascript" src="js/app/app.js"></script>
+		<script type="text/javascript" src="js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="js/app/html/index.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.previewImage();
+			//监听滚动条
+			$(window).scroll(function() {
+				var top = $(window).scrollTop();
+				if(top >= 200) {
+					$(".refresh-fild").show();
+				} else {
+					$(".refresh-fild").hide();
+				}
+			});
+			mui('body').on('tap', 'a', function() {
+				document.location.href = this.href;
+			});
+
+			//
+			function plusReady() {
+				// 设置系统状态栏背景为主题蓝色
+				plus.navigator.setStatusBarBackground("#FFF");
+				// 设置系统状态栏样式为浅色文字
+				plus.navigator.setStatusBarStyle("dark");
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+		</script>
+	</body>
+
+</html>

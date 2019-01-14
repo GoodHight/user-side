@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<style type="text/css">
+			.headlines-text{
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">头条详情</h1>
+		</header>
+		<div id="detailsvue" v-cloak class="mui-content" style="padding-bottom: 50px;">
+			<div class="headlines-box">
+				<div class="graphic-top">
+					<div class="graphic-top-lift">
+						<div class="graphic-img">
+							<img src="../../img/important/touxiang.png" />
+						</div>
+						<div class="graphic-info">
+							<p>发布者昵称</p>
+							<p>{{details.created_time}}</p>
+						</div>
+					</div>
+					<div class="graphic-top-right">
+						<span>{{details.name}}</span>
+					</div>
+				</div>
+				<div class="headlines-text">
+					<span>{{details.content}}</span>
+				</div>
+				<div v-if="details.img_url" class="headlines-picture">
+					<img :src="details.img_url" />
+				</div>
+			</div>
+		</div>
+		<div class="graphic-footer">
+			<div class="collection" onclick="app.blocaked();">
+				<img src="../../img/important/collection1.png" />
+				<!--<img src="../../img/important/collection2.png" />-->
+				<p>收藏</p>
+			</div>
+			<div id="share" class="share">
+				<img src="../../img/important/share.png" />
+				<p>分享</p>
+			</div>
+			<span class="placeholder"></span>
+		</div>
+		<div class="additional-share">
+			<p class="share-title">
+				追加分享
+			</p>
+			<div class="additional-text">
+				<textarea placeholder="可填写分享内容"></textarea>
+			</div>
+			<div>
+				<p class="additional-title">添加图片</p>
+				<div class="additional-img">
+					<div>
+						<img src="../../img/important/add1.png" />
+					</div>
+					<div>
+						<img src="../../img/important/add1.png" />
+					</div>
+					<div>
+						<img src="../../img/important/add1.png" />
+					</div>
+				</div>
+				<p class="attention">注意：图片大小不能超过200kb</p>
+			</div>
+		</div>
+		<div id="z_mask" class="mask"></div>
+		<div class="select-share">
+			<div class="select-box">
+				<div class="qq-zone">
+					<img src="../../img/important/zone.png" />
+					<p>QQ空间</p>
+				</div>
+				<div class="wecht">
+					<img src="../../img/important/wx.png" />
+					<p>微信</p>
+				</div>
+			</div>
+			<div id="z_cancel" class="cancel">取消</div>
+		</div>
+		<input type="file" name="" id="file1" onchange="filechange(event)" style="display: none;" />
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js" ></script>
+		<script type="text/javascript" src="../../js/app/app.js" ></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/app/html/details.js" ></script>
+		<script type="text/javascript">
+			mui.init()
+			//追加分享
+			var sharetype = false; //声明一个变量判断分享按钮 true为分享 false为追加分享
+			$("#share")[0].addEventListener("tap", function() {
+				app.blocaked();
+//				if(sharetype) {
+//					$(".additional-share").css({
+//						"bottom": "-350px;",
+//						"transition": "0.5s"
+//					});
+//					$(".select-share").css({
+//						"bottom": "0px;",
+//						"transition": "0.5s",
+//					});
+//				} else {
+//					$(".additional-share").css({
+//						"bottom": "50px;",
+//						"transition": "0.5s"
+//					});
+//					$("#share").children("p").text("点击分享");
+//					$("#z_registered").removeClass("hide");
+//					$(".mask").show();
+//					sharetype = true;
+//				}
+			});
+			//分享取消
+			$("#z_mask")[0].addEventListener("tap", function() {
+				$(".additional-share").css({
+					"bottom": "-350px;",
+					"transition": "0.5s"
+				});
+				$(".select-share").css({
+					"bottom": "-200px;",
+					"transition": "0.5s",
+				});
+				//恢复分享状态
+				sharetype = false;
+				$(".mask").hide();
+				$("#share").children("p").text("分享");
+			});
+			//图片上传
+			var imgindex = 0; //声明变量保存图片索引
+			$(".additional-img").on("tap", "div", function() {
+				imgindex = $(this).children("img");
+				$("#file1").click();
+				console.log(this);
+			});
+			//上传图片
+			var filechange = function(event) {
+				var files = event.target.files,
+					file;
+				if(files && files.length > 0) {
+					// 获取目前上传的文件
+					file = files[0]; // 文件大小校验的动作
+					if(file.size > 1024 * 200) {
+						alert('图片大小不能超过 200kb!');
+						return false;
+					}
+					// 获取 window 的 URL 工具
+					var URL = window.URL || window.webkitURL;
+					// 通过 file 生成目标 url
+					var imgURL = URL.createObjectURL(file);
+					//用attr将img的src属性改成获得的url
+					$(imgindex).attr("src", imgURL);
+					// 使用下面这句可以在内存中释放对此 url 的伺服，跑了之后那个 URL 就无效了
+					// URL.revokeObjectURL(imgURL);
+					event.target.value = '' //避免同名文件不能上传
+				}
+			};
+			$("#z_cancel")[0].addEventListener("tap", function() {
+				$(".select-share").css({
+					"bottom": "-200px;",
+					"transition": "0.5s",
+				});
+				//关闭遮罩
+				$(".mask").hide();
+				//恢复分享状态
+				sharetype = false;
+				$("#share").children("p").text("分享");
+			});
+		</script>
+	</body>
+
+</html>

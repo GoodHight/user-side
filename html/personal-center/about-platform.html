@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			.nlk-rules{
+				border-bottom: 1px dashed #F3F3F3;
+			}
+			.nlk-rules>p{
+				color: #5B5B5B;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #1AB3FF;"></a>
+			<h1 class="mui-title" style="color: #555;">关于平台</h1>
+		</header>
+		<div class="mui-content" id="about">
+			<div class="nlk-icon-box">
+				<img src="../../img/important/logo.png"/>
+				<p>益养延和商户版  V0.0.1</p>
+			</div>
+			<div class="nlk-rules">
+				<p>公司介绍</p>
+				<span>
+					{{findPlatform.goods_introduce}}
+				</span>
+			</div>
+			<div class="nlk-rules">
+				<p>平台介绍</p>
+				<span>
+					{{findPlatform.company_introduce}}
+				</span>
+			</div>
+			<div class="nlk-rules" style="border: none;">
+				<p>客服电话</p>
+				<span>
+					{{findPlatform.service_telephone}}
+				</span>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/about.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

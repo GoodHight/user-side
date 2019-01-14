@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			
+			.mui-content {
+				background: #F3F3F3;
+			}
+			
+			.technician-btn {
+				height: 30px;
+			}
+			
+			.order-time {
+				margin-top: 0px;
+			}
+			
+			.technician-info>p:nth-of-type(5)>span:nth-of-type(1) {
+				color: #727272;
+				font-size: 0.8rem;
+			}
+			
+			.technician-info>p:nth-of-type(5)>:nth-of-type(2) {
+				margin: 0px 5px;
+			}
+			
+			.showtitle{
+				padding: 10px;
+			}
+			.showtitle>p{
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:#fff">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #555;"></a>
+			<h1 class="mui-title" style="color: #555;">技师列表</h1>
+			<a id="z_editor" class="mui-icon mui-pull-right" style="color: #7F7F7F; font-size:16px;margin-top: 5px;">编辑</a>
+		</header>
+		<div id="texhnicianlist" class="mui-content">
+			<div class="order-time">
+				<div><span>最近三天</span></div>
+				<div><span>最近一周</span></div>
+				<div><span>最近一月</span></div>
+				<div><span class="btn">更多</span></div>
+			</div>
+			<template v-if='texhnicianList.length > 0' v-for="(list, index) in texhnicianList">
+				<div @click="lookTechnician(event,list.sign)" class="apply-box">
+					<div class="technician-img">
+						<img :src="list.head_url" />
+					</div>
+					<div class="technician-info">
+						<p>{{list.name}}</p>
+						<!--<p class="technician-score">
+							<a>2.5</a>
+						</p>-->
+						<p>{{list.seller_name}}</p>
+						<p class="technician-order">
+							<!--<img src="../../img/important/22.png" />-->
+							共服务{{list.order_num}}单
+							<!--<a>￥</a>{{list.name}}-->
+						</p>
+						<p>
+							<span>{{list.title}}</span>
+							<span>|</span>
+							<span>{{list.service_types|serviceText}}</span>
+						</p>
+					</div>
+					<div @click.stop="deleteTechnician(event, list.sign)" class="technician-btn">
+						<img src="../../img/important/delete.png" />
+					</div>
+				</div>
+			</template>
+			<div v-cloak class="showtitle" v-if="showType && total> texhnicianList.length">
+				<p>加载更多</p>
+			</div>
+			<div v-cloak v-if="total== 0">
+				<p>还未有技师加入</p>
+			</div>
+		</div>
+		<div class="apply-list">
+			<img src="../../img/important/9.png" />
+			<span>申请列表</span>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/public.js"></script>
+		<script type="text/javascript" src="../../js/lib/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/technicianlist.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(".technician-img").css("height", $(".technician-img").width() + "px");
+			$("#z_editor")[0].addEventListener("tap", function() {
+				$(".technician-btn").children("img").show()
+			});
+			$(".technician-btn").on("tap", function() {
+				var src = $(this).children("img").attr("src");
+				if(src == "../../img/important/11.png") {
+					$(this).children("img").attr("src", "../../img/important/choose.png");
+				} else {
+					$(this).children("img").attr("src", "../../img/important/11.png");
+				};
+				event.stopPropagation();
+			});
+			//评星
+			var scorebox = $(".technician-score");
+			for(var i = 0; i < scorebox.length; i++) {
+				var num = $(scorebox).eq(i).children("a").text();
+				var tag = $(scorebox).eq(i).children("a");
+				score(num, tag);
+			};
+			//技师详情
+			$(".apply-box").on("tap", function() {
+				window.location.href = 'technician-info.html'
+			});
+			//申请列表
+			$(".apply-list").on("tap", function() {
+				window.location.href = 'apply-list.html'
+			});
+			$(".order-time").on("tap", "span", function() {
+				$(".order-time span").removeClass("order-time-c");
+				$(this).addClass("order-time-c");
+			});
+			mui.init();
+			var btns = $('.btn');
+			var data_options = '{"type":"date","beginYear":2017,"endYear":2025}'
+			btns.each(function(i, btn) {
+				btn.addEventListener('tap', function() {
+					var optionsJson = data_options || '{}';
+					var options = JSON.parse(optionsJson);
+					var id = this.getAttribute('id');
+					var picker = new mui.DtPicker(options);
+					picker.show(function(rs) {
+						console.log(rs.text);
+						picker.dispose();
+					});
+				}, false);
+			});
+		</script>
+	</body>
+
+</html>

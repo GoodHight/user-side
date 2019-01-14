@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/public.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+			
+			.mui-content {
+				background: #F3F3F3;
+			}
+			
+			.time-top>input {
+				width: 40%;
+				height: 30px;
+				margin: 0px;
+				border: 1px solid #EFF4F3;
+				background: #fff;
+				font-size: 0.8rem;
+				color: #555;
+				border-radius: 30px;
+				text-align: center;
+			}
+			
+			.time-top>input:first-child {
+				margin-right: 3px;
+			}
+			
+			.show-box {
+				border: none !important;
+				height: 30px;
+				line-height: 65px;
+			}
+			
+			.show-box>p {
+				text-align: center;
+				font-size: 0.7rem;
+				color: #555;
+			}
+			.top-box{
+				width: 100%;
+				position: fixed;
+				top: 44px;
+			}
+			.bottom-box{
+				width: 100%;
+				position: fixed;
+				background: #fff;
+				top: 202px;
+				bottom: 0px;
+				overflow: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav search-header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title" style="color: white;">营业流水</h1>
+		</header>
+		<div id="business" class="mui-content">
+			<div class="top-box">
+				<template v-if="HdList != '' && HdList.length > 0 ">
+				<div class="business-type">
+					<div @click="selectType(event, '')" class="business-type-c" style="margin-left: 27px;">全部</div>
+					<template v-if="HdList != '' && HdList.length > 0 " v-for="(list, idnex) in HdList">
+						<div @click="selectType(event, list.sign)">{{list.category_name}}</div>
+					</template>
+					<a id="time-show" @click="showTime(event)">
+						<div class="calendar-icon "><img src="../../img/important/time12.png" /></div>
+					</a>
+				</div>
+				</template>
+				<template v-if="waterInfo!=null">
+				<div class="time-top">
+					<input @click="selectTime(event, 'start')" v-model="startTimeStr" type="text" readonly="readonly" placeholder="选择开始时间" />-
+					<input @click="selectTime(event, 'over')" v-model="endTimeStr" type="text" readonly="readonly" placeholder="选择结束时间" />
+				</div>
+				<div class="business-title">
+					<span>数据统计</span>
+					<span onclick="window.location.href='withdrawal.html'">提现</span>
+				</div>
+				<div class="business-list">
+					<template v-if="waterInfo!=null">
+						<div>
+							<p>销售单数</p>
+							<span>{{waterInfo.service_num}}</span>
+							<a></a>
+						</div>
+						<div>
+							<p>收入合计</p>
+							<span>+{{waterInfo.income_money}}</span>
+							<a></a>
+						</div>
+						<div>
+							<p>支出合计</p>
+							<span>-{{waterInfo.pay_money}}</span>
+						</div>
+					</template>
+				</div>
+				</template>
+			</div>
+			<div class="bottom-box" v-if="waterInfo!=null">
+				<div class="timeline">
+					<template v-if="waterIist != '' && waterIist.length > 0" v-for="(list, index) in waterIist">
+						<div>
+							<div>
+								<div>{{list.created_time}}
+								</div>
+								<div>{{list.income_expend_type|moneyType}}</div>
+								<div v-if="list.income_expend_type == 'INCOME_TYPE'">+{{list.money}}</div>
+								<div v-else>-{{list.money}}</div>
+							</div>
+							<label></label>
+						</div>
+					</template>
+					<template v-if="show">
+						<div class="show-box">
+							<p>当前暂无流水</p>
+						</div>
+					</template>
+					<template v-if="waterIist.length > 0 && waterIist.length < total">
+						<div @click="lookMore()" class="show-box">
+							<p>查看更多流水</p>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/business.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			$(".business-type").on("tap", "div", function() {
+				$(this).addClass("business-type-c");
+				$(this).siblings("div").removeClass("business-type-c");
+			});
+
+		</script>
+	</body>
+
+</html>

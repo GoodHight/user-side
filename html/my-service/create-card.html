@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/public.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/merchants-style.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			body {
+				background: #F3F3F3;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="headervue" class="mui-bar mui-bar-nav search-header">
+			<a @click="backBtn()" class=" mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 class="mui-title" style="color: white;">创建卡券</h1>
+			<a @click="submitBtn()" class="mui-pull-right" style="color: white;">确定</a>
+		</header>
+		<div id="createcardvue" class="mui-content" style="background: #F3F3F3;">
+			<div class="create-info-box">
+				<ul class="create-create-ul">
+					<li>
+						<img src="../../img/important/thebasicinformation.png" />
+						<span>基本信息</span>
+					</li>
+					<li>
+						<div @click="selectType(event)">
+							<span>类型：</span>
+							<input id="z_technician" type="text" placeholder="类型选择" readonly="readonly"/>
+							<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<span>卡券名称：</span>
+							<input v-model="name" type="text" placeholder="输入卡券名称" />
+						</div>
+					</li>
+					<li v-if="discountNum == 'DEDUCTIBLE_CARD'">
+						<div>
+							<span>折扣范围：</span>
+							<input v-model="discount" type="number" placeholder="输入折扣范围" />
+						</div>
+					</li>
+					<li v-if="discountNum == 'DEDUCTIBLE_BONUS'">
+						<div>
+							<span>抵用金额：</span>
+							<input v-model="discount" type="number" placeholder="输入金额" />
+						</div>
+					</li>
+					<li v-if="discountNum == 'CASH_BONUS'">
+						<div>
+							<span>红包金额：</span>
+							<input v-model="discount" type="number" placeholder="输入金额" />
+						</div>
+					</li>
+					<li>
+						<div>
+							<span>份数：</span>
+							<input v-model="numbers" type="number" placeholder="输入份数" />
+						</div>
+					</li>
+					<li>
+						<div @click="selectCond()">
+							<span>设置条件：</span>
+							<input id="z_condition" type="text" placeholder="请选择条件" readonly="readonly" />
+							<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+						</div>
+					</li>
+					<li v-if="scope == 'Minimum_consume'||scope == 'heap_consume'">
+						<div>
+							<span>使用范围：</span>
+							<input v-model="scopeText" type="number" placeholder="请设置最低或累计消费金额" />
+						</div>
+					</li>
+					<li>
+						<div>
+							<span>适用服务：</span>
+							<input id="z_service" v-model="suitService" type="text" placeholder="选择适用服务" readonly="readonly" />
+							<a class="mui-icon mui-icon-arrowright mui-pull-right"></a>
+						</div>
+					</li>
+					<li @click="selectTime()">
+						<div>
+							<span>截止日：</span>
+							<input id="z_create_time" type="text" placeholder="选择有效截止日" readonly="readonly" />
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="multi-select-box" style="display: none;">
+				<div class="multi-select">
+					<div>
+						<div class="mui-card">
+							<form class="mui-input-group">
+								<template v-if="service != null && service.length > 0" v-for="(list, index) in service">
+									<div @click="selectSer(event, list.sign, list.category_name)" class="mui-input-row mui-radio mui-left">
+										<label>{{list.category_name}}</label>
+										<input name="radio1" type="radio">
+									</div>
+								</template>
+							</form>
+						</div>
+					</div>
+					<div class="multi-btn">
+						<button id="z_ok_btn">确定</button>
+						<button id="z_no_btn">取消</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/app/common.js"></script>
+		<script type="text/javascript" src="../../js/app/app.js"></script>
+		<script type="text/javascript" src="../../js/lib/vue/vue.min.js"></script>
+		<script type="text/javascript" src="../../js/app/html/createcard.js"></script>
+		<script type="text/javascript" src="../../js/app/regex.js" ></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			$("#z_service")[0].addEventListener("tap", function() {
+				$(".multi-select-box").show();
+			});
+			$("#z_ok_btn")[0].addEventListener("tap", function() {
+				$(".multi-select-box").hide();
+			});
+			$("#z_no_btn")[0].addEventListener("tap", function() {
+				$(".multi-select-box").hide();
+			});
+			document.getElementById("spinner-box").ontouchstart = function(e) {
+				e.preventDefault();
+			};
+		</script>
+	</body>
+
+</html>
